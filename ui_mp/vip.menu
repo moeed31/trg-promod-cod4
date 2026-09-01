@@ -1,0 +1,849 @@
+#include "ui/menudef.h"
+#include "ui_mp/menustyle.inc"
+#include "ui/choices_setup_common.menu"
+#include "ui_mp/vip_common.inc"	
+
+{
+	menuDef 
+	{
+		name 			"vip"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		7
+		visible			1
+		onEsc
+		{
+			close self;
+			open player_menu;
+		}
+
+		// 1. Deep Black Immersive Background
+        itemDef
+        {
+            style                     WINDOW_STYLE_FILLED
+            rect                      0 0 530 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+            backColor                 0 0 0 0.75
+            visible                   1
+            decoration                
+        }
+        
+        // 2. Animated Fog Background
+        itemDef
+        {
+            rect                      -107 0 1708 480 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.7
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "animbg_fogscroll"
+            textScale                 0.55
+            exp                       rect X ( ( ( ( - 107 ) - ( ( float( milliseconds( ) % 60000 ) / 60000 ) * ( 854 ) ) ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -107 0 1708 480 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.7
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "animbg_fogscrollthin"
+            textScale                 0.55
+            exp                       rect X ( ( ( ( - 961 ) + ( ( float( milliseconds( ) % 100000 ) / 100000 ) * ( 854 ) ) ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        
+        // 3. Dark Overlay
+        itemDef
+        {
+            rect                      0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+            style                     WINDOW_STYLE_FILLED
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0.28
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        
+        // 5. Left Panel Edge Glow (Width 530)
+        itemDef
+        {
+            rect                      210 0 1 480 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.8
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            exp                       material ( ( ( "button_highlight_end" ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      210 0 8 480 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.75
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            exp                       material ( ( ( "gradient" ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+
+        // Title
+        itemDef
+        {
+            rect                      30 18 360 30 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      30 45 360 6 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            exp                       material ( ( ( "menu_button_backg" ) ) );
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      30 18 360 30 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 0.95294 0.72156 0.21176 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -10
+            textScale                 0.51
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "PRESTIGE & DONATION REWARDS"
+            visible                   1
+        }
+        
+		// Subtle Semtex logo watermark
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect 158 134 236 113 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"semtex_logo"
+			forecolor 1 1 1 1
+			visible			1
+			decoration
+		}
+
+		// Prestige dynamic status icon & text in header
+		itemDef
+		{
+			rect 14 90 129 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		0.93 0.93 0.93 0.85
+			textfont		UI_FONT_NORMAL
+			textscale 0.5
+			textstyle  		ITEM_TEXTSTYLE_SHADOWED
+			exp text        ("PRESTIGE TIER: ^5"+ stat(3251) + " ^7| REWARD TIER: ^5" + stat(3252))
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			rect			380 34 130 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		0.93 0.93 0.93 0.85
+			textfont		UI_FONT_NORMAL
+			textscale		0.24
+			textstyle  		ITEM_TEXTSTYLE_SHADOWED
+			exp text        ("DONOR TIER: ^5Bronze")
+			visible			when(stat(3253)==1)
+			decoration
+		}
+		itemDef
+		{
+			rect			380 34 130 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		0.93 0.93 0.93 0.85
+			textfont		UI_FONT_NORMAL
+			textscale		0.24
+			textstyle  		ITEM_TEXTSTYLE_SHADOWED
+			exp text        ("DONOR TIER: ^5Silver")
+			visible			when(stat(3253)==2)
+			decoration
+		}
+		itemDef
+		{
+			rect			380 34 130 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		0.93 0.93 0.93 0.85
+			textfont		UI_FONT_NORMAL
+			textscale		0.24
+			textstyle  		ITEM_TEXTSTYLE_SHADOWED
+			exp text        ("DONOR TIER: ^5Gold")
+			visible			when(stat(3253)==3)
+			decoration
+		}
+		itemDef
+		{
+			rect			380 34 130 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		0.93 0.93 0.93 0.85
+			textfont		UI_FONT_NORMAL
+			textscale		0.24
+			textstyle  		ITEM_TEXTSTYLE_SHADOWED
+			exp text        ("DONOR TIER: ^5Platinum")
+			visible			when(stat(3253)==4)
+			decoration
+		}
+		itemDef
+		{
+			rect			380 34 130 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		0.93 0.93 0.93 0.85
+			textfont		UI_FONT_NORMAL
+			textscale		0.24
+			textstyle  		ITEM_TEXTSTYLE_SHADOWED
+			exp text        ("DONOR TIER: ^5Diamond")
+			visible			when(stat(3253)==5)
+			decoration
+		}
+		itemDef
+		{
+			rect			380 34 130 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		0.93 0.93 0.93 0.85
+			textfont		UI_FONT_NORMAL
+			textscale		0.24
+			textstyle  		ITEM_TEXTSTYLE_SHADOWED
+			exp text        ("DONOR TIER: ^5Rippers Ultimate")
+			visible			when(stat(3253)==6)
+			decoration
+		}
+		itemDef
+		{
+			rect 328 90 129 18 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		0.93 0.93 0.93 0.85
+			textfont		UI_FONT_NORMAL
+			textscale 0.5
+			textstyle  		ITEM_TEXTSTYLE_SHADOWED
+			exp text        ("DONOR TIER: ^7Regular")
+			visible			when(stat(3253)==0)
+			decoration
+		}
+
+		// =========================================================================
+		// LEFT PANEL CARD - SEASON AWARDS
+		// =========================================================================
+
+		
+	
+		// PLATINUM TIER ITEMS (VIP4)
+		itemDef
+		{
+			rect 10 290 80 15 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		0.9 0.9 0.9 0.9 // Platinum color
+			textfont 		UI_FONT_NORMAL
+			textscale 0.5
+			textalign		ITEM_ALIGN_LEFT
+			text            "PLATINUM"
+			visible         1
+			decoration
+		}
+		
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect 10 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material("award1_menu")
+			visible			1
+			border			1
+			bordercolor		0 0 0 1
+			decoration
+		}
+		itemDef
+		{
+			rect 10 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			style			WINDOW_STYLE_SHADER
+			background		"black"
+			forecolor		0 0 0 0.85
+			visible			when( dlevel < 4 )
+			decoration
+		}
+		itemDef
+		{
+			style		WINDOW_STYLE_FILLED
+			rect		10 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			type		ITEM_TYPE_BUTTON
+			exp			text( "" )
+			visible		1
+			mouseEnter	{ play "mouse_over"; }
+			action		{ play "mouse_click"; scriptMenuResponse "1"; close self; }
+		}
+
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect 55 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material("award2_menu")
+			visible			1
+			border			1
+			bordercolor		0 0 0 1
+			decoration
+		}
+		itemDef
+		{
+			rect 55 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			style			WINDOW_STYLE_SHADER
+			background		"black"
+			forecolor		0 0 0 0.85
+			visible			when( dlevel < 4 )
+			decoration
+		}
+		itemDef
+		{
+			style		WINDOW_STYLE_FILLED
+			rect		55 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			type		ITEM_TYPE_BUTTON
+			exp			text( "" )
+			visible		1
+			mouseEnter	{ play "mouse_over"; }
+			action		{ play "mouse_click"; scriptMenuResponse "2"; close self; }
+		}
+
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect 105 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material("material20")
+			visible			1
+			border			1
+			bordercolor		0 0 0 1
+			decoration
+		}
+		itemDef
+		{
+			rect 105 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			style			WINDOW_STYLE_SHADER
+			background		"black"
+			forecolor		0 0 0 0.85
+			visible			when( dlevel < 4 )
+			decoration
+		}
+		itemDef
+		{
+			style		WINDOW_STYLE_FILLED
+			rect		105 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			type		ITEM_TYPE_BUTTON
+			exp			text( "" )
+			visible		1
+			mouseEnter	{ play "mouse_over"; }
+			action		{ play "mouse_click"; scriptMenuResponse "13"; close self; }
+		}
+
+		// DIAMOND TIER ITEMS (VIP5)
+		itemDef
+		{
+			rect 182 290 80 15 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		0.3 0.7 1 0.95 // Diamond color
+			textfont 		UI_FONT_NORMAL
+			textscale 0.5
+			textalign		ITEM_ALIGN_LEFT
+			text            "DIAMOND"
+			visible         1
+			decoration
+		}
+		
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect 182 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material("award3_menu")
+			visible			1
+			border			1
+			bordercolor		0 0 0 1
+			decoration
+		}
+		itemDef
+		{
+			rect 182 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			style			WINDOW_STYLE_SHADER
+			background		"black"
+			forecolor		0 0 0 0.85
+			visible			when( dlevel < 5 )
+			decoration
+		}
+		itemDef
+		{
+			style		WINDOW_STYLE_FILLED
+			rect		182 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			type		ITEM_TYPE_BUTTON
+			exp			text( "" )
+			visible		1
+			mouseEnter	{ play "mouse_over"; }
+			action		{ play "mouse_click"; scriptMenuResponse "3"; close self; }
+		}
+
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			244 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material("award4_menu")
+			visible			1
+			border			1
+			bordercolor		0 0 0 1
+			decoration
+		}
+		itemDef
+		{
+			rect 244 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			style			WINDOW_STYLE_SHADER
+			background		"black"
+			forecolor		0 0 0 0.85
+			visible			when( dlevel < 5 )
+			decoration
+		}
+		itemDef
+		{
+			style		WINDOW_STYLE_FILLED
+			rect		244 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			type		ITEM_TYPE_BUTTON
+			exp			text( "" )
+			visible		1
+			mouseEnter	{ play "mouse_over"; }
+			action		{ play "mouse_click"; scriptMenuResponse "4"; close self; }
+		}
+
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			298 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material("material6")
+			visible			1
+			border			1
+			bordercolor		0 0 0 1
+			decoration
+		}
+		itemDef
+		{
+			rect 298 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			style			WINDOW_STYLE_SHADER
+			background		"black"
+			forecolor		0 0 0 0.85
+			visible			when( dlevel < 5 )
+			decoration
+		}
+		itemDef
+		{
+			style		WINDOW_STYLE_FILLED
+			rect		298 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			type		ITEM_TYPE_BUTTON
+			exp			text( "" )
+			visible		1
+			mouseEnter	{ play "mouse_over"; }
+			action		{ play "mouse_click"; scriptMenuResponse "14"; close self; }
+		}
+
+		// RIPPERS ULTIMATE ITEMS (VIP6)
+		itemDef
+		{
+			rect 354 290 80 15 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		1 0.3 0.3 0.95 // Ultimate color
+			textfont 		UI_FONT_NORMAL
+			textscale 0.5
+			textalign		ITEM_ALIGN_LEFT
+			text            "ULTIMATE"
+			visible         1
+			decoration
+		}
+		
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			354 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material("award5_menu")
+			visible			1
+			border			1
+			bordercolor		0 0 0 1
+			decoration
+		}
+		itemDef
+		{
+			rect 354 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			style			WINDOW_STYLE_SHADER
+			background		"black"
+			forecolor		0 0 0 0.85
+			visible			when( dlevel < 6 )
+			decoration
+		}
+		itemDef
+		{
+			style		WINDOW_STYLE_FILLED
+			rect		354 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			type		ITEM_TYPE_BUTTON
+			exp			text( "" )
+			visible		1
+			mouseEnter	{ play "mouse_over"; }
+			action		{ play "mouse_click"; scriptMenuResponse "5"; close self; }
+		}
+
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			410 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material("material2")
+			visible			1
+			border			1
+			bordercolor		0 0 0 1
+			decoration
+		}
+		itemDef
+		{
+			rect 410 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			style			WINDOW_STYLE_SHADER
+			background		"black"
+			forecolor		0 0 0 0.85
+			visible			when( dlevel < 6 )
+			decoration
+		}
+		itemDef
+		{
+			style		WINDOW_STYLE_FILLED
+			rect		310 290 38 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			type		ITEM_TYPE_BUTTON
+			exp			text( "" )
+			visible		1
+			mouseEnter	{ play "mouse_over"; }
+			action		{ play "mouse_click"; scriptMenuResponse "15"; close self; }
+		}
+
+		// =========================================================================
+		// DONOR PERKS
+		// =========================================================================
+
+		
+	
+        
+        itemDef
+		{
+			rect			10 360 156 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		0.9 0.6 0.2 0.9 // Bronze color
+			textfont 		UI_FONT_NORMAL
+			textscale 		0.5
+			textalign		ITEM_ALIGN_LEFT
+			text            "BRONZE"
+			visible         1
+			decoration
+		}
+        itemDef
+		{
+			name		"emb1_btn"
+			style		WINDOW_STYLE_SHADER
+			rect		10 360 156 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor	1 1 1 1
+			type		ITEM_TYPE_BUTTON
+			exp			material("playercard_emblem_1")
+			visible     1
+			border		1
+			bordercolor	0 0 0 1
+			mouseEnter  { play "mouse_over"; }
+			action      { play "mouse_click"; scriptMenuResponse "emblem_1"; close self; }
+		}
+		itemDef
+		{
+			rect 10 360 156 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			style			WINDOW_STYLE_SHADER
+			background		"black"
+			forecolor		0 0 0 0.85
+			visible			when( dlevel < 1 )
+			decoration
+		}
+        
+        itemDef
+		{
+			rect			182 360 156 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor 0.686 0.675 0.675 38 // Silver color
+			textfont 		UI_FONT_NORMAL
+			textscale 		0.5
+			textalign		ITEM_ALIGN_LEFT
+			text            "SILVER"
+			visible         1
+			decoration
+		}
+        itemDef
+		{
+			name		"emb2_btn"
+			style		WINDOW_STYLE_SHADER
+			rect		182 360 156 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor	1 1 1 1
+			type		ITEM_TYPE_BUTTON
+			exp			material("playercard_emblem_2")
+			visible     1
+			border		1
+			bordercolor	0 0 0 1
+			mouseEnter  { play "mouse_over"; }
+			action      { play "mouse_click"; scriptMenuResponse "emblem_2"; close self; }
+		}
+		itemDef
+		{
+			rect 182 360 156 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			style			WINDOW_STYLE_SHADER
+			background		"black"
+			forecolor		0 0 0 0.85
+			visible			when( dlevel < 2 )
+			decoration
+		}
+        
+        itemDef
+		{
+			rect			354 360 156 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		1 0.8 0.1 0.95 // Gold color
+			textfont 		UI_FONT_NORMAL
+			textscale 		0.5
+			textalign		ITEM_ALIGN_LEFT
+			text            "GOLD"
+			visible         1
+			decoration
+		}
+        itemDef
+		{
+			name		"emb3_btn"
+			style		WINDOW_STYLE_SHADER
+			rect		354 360 156 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor	1 1 1 1
+			type		ITEM_TYPE_BUTTON
+			exp			material("playercard_emblem_3")
+			visible     1
+			border		1
+			bordercolor	0 0 0 1
+			mouseEnter  { play "mouse_over"; }
+			action      { play "mouse_click"; scriptMenuResponse "emblem_3"; close self; }
+		}
+		itemDef
+		{
+			rect 354 360 156 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			style			WINDOW_STYLE_SHADER
+			background		"black"
+			forecolor		0 0 0 0.85
+			visible			when( dlevel < 3 )
+			decoration
+		}
+
+		// =========================================================================
+		// RIGHT PREVIEW PANEL CARD
+		// =========================================================================
+
+		itemDef
+        {
+            rect -99 10 98 30 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 0.95294 0.72156 0.21176 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -10
+            textScale                 0.51
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "PREVIEW"
+            visible                   1
+        }
+        
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect 540 45 90 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"menu_button_backg"
+			forecolor		1 1 1 0.4
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			rect			540 45 90 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textalign		ITEM_ALIGN_LEFT
+			textaligny		12
+			textscale		0.18
+			forecolor		0.93 0.93 0.93 0.7
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textfont		UI_FONT_NORMAL
+			text			"SELECTED SPRAY:"
+			visible			1
+			decoration
+		}
+
+		// Spray Label & Shader preview
+		itemDef
+		{
+			rect			550 72 75 12 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textalign		ITEM_ALIGN_CENTER
+			textscale		0.16
+			forecolor		0.93 0.93 0.93 0.6
+			text			"Active Spray"
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect 538 94 93 82 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material( tableLookup( SPRAY_TABLE, 0, Stat(979) + 1, 3 ) )
+			border			1
+			bordercolor		0.3 0.3 0.3 0.5
+			visible			1
+			decoration
+		}
+
+		// Skin Label & Shader preview
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect 540 219 90 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"menu_button_backg"
+			forecolor		1 1 1 0.4
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			rect			540 219 90 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textalign		ITEM_ALIGN_LEFT
+			textaligny		12
+			textscale		0.18
+			forecolor		0.93 0.93 0.93 0.7
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textfont		UI_FONT_NORMAL
+			text			"SELECTED SKIN:"
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect 538 236 94 77 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material( tableLookup( CHAR_TABLE, 0, Stat(980) + 1, 3 ) )
+			border			1
+			bordercolor		0.3 0.3 0.3 0.5
+			visible			1
+			decoration
+		}
+        
+        // Emblem Label & Shader preview
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect 540 339 90 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"menu_button_backg"
+			forecolor		1 1 1 0.4
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			rect			540 339 90 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textalign		ITEM_ALIGN_LEFT
+			textaligny		12
+			textscale		0.18
+			forecolor		0.93 0.93 0.93 0.7
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textfont		UI_FONT_NORMAL
+			text			"SELECTED EMBLEM:"
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect 538 356 94 38 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material( "playercard_emblem_" + Stat(3150) )
+			border			1
+			bordercolor		0.3 0.3 0.3 0.5
+			visible			1
+			decoration
+		}
+
+		// BACK BUTTON at the bottom left
+		itemDef
+		{
+			rect			70 440 220 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+			style			WINDOW_STYLE_SHADER
+			borderSize		1
+			foreColor		0.445 0.457 0.527 0.4
+			backColor		0 0 0 0
+			borderColor		0 0 0 0
+			outlineColor	0 0 0 0
+			background		"menu_button_backg"
+			textScale		0.55
+			visible			1
+			decoration		
+		}
+		itemDef
+		{
+			name			"back_btn_glow"
+			rect			70 440 220 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+			style			WINDOW_STYLE_SHADER
+			borderSize		1
+			foreColor		0 0 0 0
+			backColor		0 0 0 0
+			borderColor		0 0 0 0
+			outlineColor	0 0 0 0
+			background		"menu_button_backg"
+			textScale		0.55
+			visible			1
+			decoration		
+		}
+		itemDef
+		{
+			name			"back_btn"
+			rect			70 440 220 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+			type			ITEM_TYPE_BUTTON
+			borderSize		1
+			foreColor		1 1 1 1
+			backColor		0 0 0 0
+			borderColor		0 0 0 0
+			outlineColor	0 0 0 0
+			textFont		UI_FONT_OBJECTIVE
+			textAlign		ITEM_ALIGN_MIDDLE_RIGHT
+			textAlignX		-25
+			textScale		0.45
+			textStyle		ITEM_TEXTSTYLE_SHADOWED
+			text			"BACK"
+			visible			1
+			action			{ play "mouse_click"; close self; open player_menu; }
+			mouseEnter		{ play "mouse_over"; setitemcolor "back_btn_glow" foreColor 1 1 1 1; }
+			mouseExit		{ setitemcolor "back_btn_glow" foreColor 0 0 0 0; }
+		}
+
+		// Watermark logo
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect -111 -60 101 50 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_BOTTOM
+			background		"semtex_logo"
+			forecolor		1 1 1 0.2
+			visible			1
+			decoration
+		}
+	}
+}

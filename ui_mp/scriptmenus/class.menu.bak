@@ -1,0 +1,268 @@
+#include "ui/menudef.h"
+#include "ui_mp/common_macro.inc"
+
+#define CHOICE_SIZE_X			150
+#define CHOICE_SIZE_Y			22
+
+#define CHOICE_X_START			0
+#define CHOICE_Y_START			210
+
+#define CHOICE_GROUP			"class"
+#define CHOICE_SEP_1			4
+
+#include "ui_mp/menustyle.inc"
+#include "ui_mp/choices_setup_teams.menu"
+
+#undef BUTTON_BG_COLOR
+#define BUTTON_BG_COLOR		0.1 0.1 0.1 0.8
+
+#define OBJECTIVE_COLOR_CUSTOM 0 0.8 1 0.6
+
+#define ORIGIN_DESCRIPTION		(CHOICE_X_START + 15) 190
+
+{
+	menuDef
+	{
+		name			"class"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		7
+		onOpen
+		{
+			focusFirst;
+		}
+		onEsc
+		{
+			close self;
+		}
+
+		// 1. Deep Black Immersive Background
+		itemDef
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+			backcolor		0.05 0.05 0.05 0.95 // Deep Black
+			visible			1
+			decoration
+		}
+
+		// 2. Subtle esports background glow
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+			background		"gradient_fadein"
+			forecolor		0 0.8 1 0.05 // Electric Blue glow
+			visible			1
+			decoration
+		}
+
+		// 3. Top accent brand line
+		itemDef
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			0 0 640 3 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_TOP
+			backcolor		0 0.8 1 0.6 // Electric Blue
+			visible			1
+			decoration
+		}
+
+		// 4. Left sidebar card container for menu options
+		itemDef
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			-300 140 230 300 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+			backcolor		0.05 0.05 0.05 0.95 // Dark Navy
+			border			1
+			bordercolor		0 0.8 1 0.6 // Ice Blue border
+			visible			1
+			decoration
+		}
+
+		// 5. Sidebar color accent strip
+		itemDef
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			-300 140 4 300 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+			backcolor		0 0.8 1 0.6 // Ice Blue
+			visible			1
+			decoration
+		}
+
+		// Player's Custom Rank Icon
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			-290 44 24 24 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+			exp				material(dvarString("ui_ls_rank_icon"))
+			visible			when(dvarString("ui_ls_rank_icon") != "")
+			decoration
+		}
+
+		// Player's Custom Rank Name Text
+		itemDef
+		{
+			rect			-260 61 200 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+			textalign		ITEM_ALIGN_LEFT
+			textscale		0.28
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			forecolor		0.1 0.56 1 0.95 // Electric Ice Blue rank name
+			exp text		( dvarString("ui_ls_rank_name") )
+			visible			when(dvarString("ui_ls_rank_name") != "")
+			decoration
+		}
+
+		// 9. Main Header and description
+		itemDef
+		{
+			rect			-290 92 600 30 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+			textalign		ITEM_ALIGN_LEFT
+			textscale		0.45
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			forecolor		0.93 0.93 0.93 1.0 // Off-white
+			exp text		("TACTICAL DASHBOARD")
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			rect			-300 106 200 1 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+			style			WINDOW_STYLE_FILLED
+			backcolor		0 0.48 1 0.7 // Electric Blue line
+			visible			1
+			decoration
+		}
+
+		// Mission details aligned with stats panel
+		itemDef	
+		{
+			rect			-345 65 270 20 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_TOP
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.36
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		0 0.8 1 0.6 // Electric Blue
+			exp text 		( "MISSION: " + gametypename() );
+			visible			1	decoration	
+		}
+		itemDef	
+		{
+			rect			-345 80 270 40 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_TOP
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.24
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		0.93 0.93 0.93 0.65 // Dim off-white
+			exp text		( gametypedescription() );
+			autowrapped
+			visible			1	decoration	
+		}
+
+		// Small Semtex watermark logo at the bottom right
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			-80 -80 60 60 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_BOTTOM
+			background		"semtex_logo"
+			forecolor		0 0.8 1 0.4 // Subtle transparency
+			visible			1
+			decoration
+		}
+
+		#include "ui_mp/player_info.inc";
+
+		#define BACK_OPEN;
+		#include "ui_mp/navcontrols.inc"
+		#include "ui_mp/teamicon.inc"
+
+		#undef CHOICE_X_START
+		#define CHOICE_X_START	-290
+
+		#undef CHOICE_Y_START
+		#define CHOICE_Y_START	150
+
+		#undef	CHOICE_HORIZONTAL_ALIGN
+		#define CHOICE_HORIZONTAL_ALIGN HORIZONTAL_ALIGN_CENTER
+
+		CHOICE_BUTTON_BG( 1, when( (TEAM_IS_MARINES || TEAM_IS_OPFOR) && MAY_CHOOSE_CLASS ) )
+		CHOICE_HIGHLIGHT( 1, (TEAM_IS_MARINES || TEAM_IS_OPFOR) && MAY_CHOOSE_CLASS )
+		CHOICE_BUTTON_VIS_NOHI( 1, "@MPUI_CHOOSE_CLASS", scriptMenuResponse "changeclass_marines", when( TEAM_IS_MARINES && MAY_CHOOSE_CLASS ) )
+		CHOICE_BUTTON_VIS_NOHI( 1, "@MPUI_CHOOSE_CLASS", scriptMenuResponse "changeclass_opfor", when( TEAM_IS_OPFOR && MAY_CHOOSE_CLASS ) )
+
+		CHOICE_BUTTON( 2, "@MPUI_CHANGE_TEAM", scriptMenuResponse "changeteam"; )
+
+		CHOICE_SEPARATOR( CHOICE_SEP_1 )
+
+		CHOICE_BUTTON( 3, "@MENU_CONTROLS", close self; open main_controls )
+		CHOICE_BUTTON( 4, "@MENU_OPTIONS", close self; open main_options; execnow "set ui_allow_graphic_change 0"; )
+		
+		//Player Menu
+		CHOICE_SEPARATOR( 4 )
+		CHOICE_BUTTON( 5, "Player Menu", close self; open player_menu )
+		CHOICE_NEWICON_VIS( 5, "specialty_new", 1 )
+		CHOICE_BUTTON( 6, "Prestige / Challenges", close self; open prestige )
+		CHOICE_BUTTON( 7, "Leader Board", close self; open leaderboard; )
+		CHOICE_BUTTON( 8, "@MENU_LEAVE_GAME", open popup_leavegame; )
+		
+		CHOICE_SEPARATOR( 8 )
+		
+		CHOICE_BUTTON_VIS( 9, "Fullbright: OFF", scriptMenuResponse "fpson";, when(dvarint("r_fullbright") == 0) )
+		CHOICE_BUTTON_VIS( 9, "Fullbright: ON", scriptMenuResponse "fpsoff";, when(dvarint("r_fullbright") == 1) )
+		CHOICE_DVARFLOATLIST( 10, "FOV Scale", "cg_fovscale", { "1" 1 "1.125" 1.125 "1.5" 1.5 "2" 2 }, ; )
+		
+		
+		
+		/////////////////////////////////////////////////////////////////////////////// PRESTIGE
+		#define SETUP_ACTION_PRESTIGEMODE \
+	 	exec "statset 267 1";\
+		open prestige_reset1
+
+		#include "ui/safearea.menu"
+	}
+		#define PRESTIGE_RESET \
+		scriptmenuresponse "prestige" \
+		play "enter_prestige";
+	
+	#undef CHOICE_SIZE_X
+	#define CHOICE_SIZE_X			320
+	
+	#undef CHOICE_HORIZONTAL_ALIGN
+	#define CHOICE_HORIZONTAL_ALIGN	HORIZONTAL_ALIGN_CENTER
+	#undef CHOICE_VERTICAL_ALIGN
+	#define CHOICE_VERTICAL_ALIGN	VERTICAL_ALIGN_CENTER
+	
+	#define CHOICE_POPUP_TITLE_HEIGHT	24
+	#define CHOICE_POPUP_SUBTITLE_HEIGHT 142
+	
+	#include "ui_mp/popupstyle.inc"
+	#include "ui/choices_setup_popmenu.menu"
+	
+	menuDef
+	{
+		CENTER_POPUP_SETUP_ONOPEN( prestige_reset1, 2, ;, setfocus cancel_button, 1 )
+
+		CHOICE_POPMENU_TITLE( "@MENU_PRESTIGE_RESET_TITLE1" )
+		CHOICE_POPMENU_SUBTITLE( "@MENU_PRESTIGE_RESET_WARNING1" )
+		CHOICE_BUTTON( 1, "@MENU_CONTINUE", close prestige_reset1; open prestige_reset3 )
+		CHOICE_BUTTON_EX( 2, "@MENU_CANCEL", close prestige_reset1, name cancel_button )
+	}
+	
+	/*menuDef
+	{
+		CENTER_POPUP_SETUP_ONOPEN( prestige_reset2, 2, ;, setfocus cancel_button, 1 )
+
+		CHOICE_POPMENU_TITLE( "@MENU_PRESTIGE_RESET_TITLE2" )
+		CHOICE_POPMENU_SUBTITLE( "@MENU_PRESTIGE_RESET_WARNING2" )
+		CHOICE_BUTTON( 1, "@MENU_CONTINUE", close prestige_reset2; open prestige_reset3 )
+		CHOICE_BUTTON_EX( 2, "@MENU_CANCEL", close prestige_reset2, name cancel_button )
+	}*/
+	
+	menuDef
+	{
+		CENTER_POPUP_SETUP_ONOPEN( prestige_reset3, 2, ;, setfocus cancel_button, 1 )
+
+		CHOICE_POPMENU_TITLE( "@MENU_PRESTIGE_RESET_TITLE3" )
+		CHOICE_POPMENU_SUBTITLE( "@MENU_PRESTIGE_RESET_WARNING3" )
+		CHOICE_BUTTON( 1, "@MENU_PRESTIGE_ENTER", PRESTIGE_RESET; close prestige_reset3; )
+		CHOICE_BUTTON_EX( 2, "@MENU_CANCEL", close prestige_reset3;, name cancel_button )
+	}
+}

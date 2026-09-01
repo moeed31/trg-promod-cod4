@@ -1,0 +1,1232 @@
+#include "ui/menudef.h"
+#include "ui_mp/menustyle.inc"
+#include "ui/choices_setup_common.menu"
+
+{
+    menuDef
+    {
+        name                      "character"
+        rect                      0 0 640 480 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+        borderSize                1
+        foreColor                 1 1 1 1
+        backColor                 0 0 0 0
+        borderColor               0 0 0 0
+        outlineColor              0 0 0 0
+        onOpen
+        {
+            setLocalVarInt ui_highlight_char 0;
+            setLocalVarInt ui_hover_char 0;
+            setDvar cg_drawGun 0;
+            exec "openscriptmenu character open_character";
+        }
+        onESC
+        {
+            setLocalVarInt ui_highlight_char 0;
+            setLocalVarInt ui_hover_char 0;
+            setDvar cg_drawGun 1;
+            exec "openscriptmenu character close_character";
+            close self;
+            open player_menu;
+        }
+
+        itemDef {
+            rect                      0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+            style                     WINDOW_STYLE_FILLED
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0.28
+            visible                   when ( dvarint( "sles_oldschool" ) != 1 )
+            decoration
+        }
+        itemDef {
+            rect                      0 0 270 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+            style                     WINDOW_STYLE_FILLED
+            backColor                 0 0 0 0.35
+            visible                   when ( dvarint( "sles_oldschool" ) != 1 )
+            decoration
+        }
+        itemDef {
+            rect                      -60 0 1 480 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 1 1 1 0.8
+            exp                       material ( ( ( "button_highlight_end" ) ) );
+            visible                   when ( dvarint( "sles_oldschool" ) != 1 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 20 300 30 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   when ( ( ! localvarbool( "ui_hideBack" ) && dvarint( "sles_oldschool" ) != 1 ) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 47 300 6 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 1 1 1 1
+            exp                       material ( ( ( "menu_button_backg" ) ) );
+            visible                   when ( ( ! localvarbool( "ui_hideBack" ) && dvarint( "sles_oldschool" ) != 1 ) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 20 300 30 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.95294 0.72156 0.21176 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.51
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "CHARACTER"
+            visible                   when ( ( ! localvarbool( "ui_hideBack" ) && dvarint( "sles_oldschool" ) != 1 ) )
+        }
+
+        itemDef {
+            rect                      320 20 280 30 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.51
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "PREVIEW"
+            visible                   1
+            decoration
+        }
+
+
+        itemDef {
+            rect                      -40 55 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 55 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_char" ) == 1 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 55 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 981 ) == 1 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 55 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "None"
+            visible                   when ( stat( 2326 ) >= 0 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 55 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "None"
+            visible                   when ( stat( 2326 ) < 0 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 55 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_char 1;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_char 0;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_char 1;
+                exec "openscriptmenu character 1";
+            }
+        }
+
+        itemDef {
+            rect                      -40 75 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 75 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_char" ) == 2 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 75 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 981 ) == 2 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 75 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Deadpool"
+            visible                   when ( stat( 2326 ) >= 1 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 75 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Deadpool"
+            visible                   when ( stat( 2326 ) < 1 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 75 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_char 2;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_char 0;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_char 2;
+                exec "openscriptmenu character 2";
+            }
+        }
+
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 2 && stat(2326) < 1 )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Requires Prestige 1"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 2 && stat(2326) < 1 )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 95 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 95 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_char" ) == 3 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 95 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 981 ) == 3 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 95 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Duke Nukem"
+            visible                   when ( stat( 2326 ) >= 2 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 95 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Duke Nukem"
+            visible                   when ( stat( 2326 ) < 2 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 95 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_char 3;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_char 0;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_char 3;
+                exec "openscriptmenu character 3";
+            }
+        }
+
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 3 && stat(2326) < 2 )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Requires Prestige 2"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 3 && stat(2326) < 2 )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 115 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 115 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_char" ) == 4 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 115 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 981 ) == 4 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 115 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Hitler"
+            visible                   when ( stat( 2326 ) >= 3 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 115 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Hitler"
+            visible                   when ( stat( 2326 ) < 3 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 115 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_char 4;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_char 0;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_char 4;
+                exec "openscriptmenu character 4";
+            }
+        }
+
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 4 && stat(2326) < 3 )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Requires Prestige 3"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 4 && stat(2326) < 3 )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 135 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 135 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_char" ) == 5 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 135 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 981 ) == 5 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 135 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Ghost Rider"
+            visible                   when ( stat( 2326 ) >= 4 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 135 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Ghost Rider"
+            visible                   when ( stat( 2326 ) < 4 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 135 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_char 5;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_char 0;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_char 5;
+                exec "openscriptmenu character 5";
+            }
+        }
+
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 5 && stat(2326) < 4 )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Requires Prestige 4"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 5 && stat(2326) < 4 )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 155 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 155 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_char" ) == 6 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 155 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 981 ) == 6 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 155 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Leon"
+            visible                   when ( stat( 2326 ) >= 5 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 155 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Leon"
+            visible                   when ( stat( 2326 ) < 5 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 155 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_char 6;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_char 0;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_char 6;
+                exec "openscriptmenu character 6";
+            }
+        }
+
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 6 && stat(2326) < 5 )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Requires Prestige 5"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 6 && stat(2326) < 5 )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 175 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 175 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_char" ) == 7 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 175 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 981 ) == 7 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 175 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Boba Fett"
+            visible                   when ( stat( 2326 ) >= 6 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 175 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Boba Fett"
+            visible                   when ( stat( 2326 ) < 6 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 175 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_char 7;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_char 0;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_char 7;
+                exec "openscriptmenu character 7";
+            }
+        }
+
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 7 && stat(2326) < 6 )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Requires Prestige 6"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 7 && stat(2326) < 6 )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 195 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 195 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_char" ) == 8 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 195 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 981 ) == 8 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 195 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Darth Maul"
+            visible                   when ( stat( 2326 ) >= 7 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 195 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Darth Maul"
+            visible                   when ( stat( 2326 ) < 7 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 195 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_char 8;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_char 0;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_char 8;
+                exec "openscriptmenu character 8";
+            }
+        }
+
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 8 && stat(2326) < 7 )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Requires Prestige 7"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 8 && stat(2326) < 7 )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 215 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 215 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_char" ) == 9 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 215 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 981 ) == 9 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 215 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Goku"
+            visible                   when ( stat( 2326 ) >= 8 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 215 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Goku"
+            visible                   when ( stat( 2326 ) < 8 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 215 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_char 9;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_char 0;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_char 9;
+                exec "openscriptmenu character 9";
+            }
+        }
+
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 9 && stat(2326) < 8 )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Requires Prestige 8"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 9 && stat(2326) < 8 )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 235 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 235 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_char" ) == 10 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 235 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 981 ) == 10 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 235 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Octane"
+            visible                   when ( stat( 2326 ) >= 9 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 235 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Octane"
+            visible                   when ( stat( 2326 ) < 9 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 235 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_char 10;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_char 0;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_char 10;
+                exec "openscriptmenu character 10";
+            }
+        }
+
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 10 && stat(2326) < 9 )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Requires Prestige 9"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 10 && stat(2326) < 9 )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 255 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 255 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_char" ) == 11 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 255 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 981 ) == 11 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 255 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Phoenix"
+            visible                   when ( stat( 2326 ) >= 10 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 255 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Phoenix"
+            visible                   when ( stat( 2326 ) < 10 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 255 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_char 11;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_char 0;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_char 11;
+                exec "openscriptmenu character 11";
+            }
+        }
+
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 11 && stat(2326) < 10 )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Requires Prestige 10"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 11 && stat(2326) < 10 )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 275 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 275 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_char" ) == 12 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 275 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 981 ) == 12 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 275 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Redbeard"
+            visible                   when ( stat( 2326 ) >= 11 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 275 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Redbeard"
+            visible                   when ( stat( 2326 ) < 11 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 275 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_char 12;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_char 0;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_char 12;
+                exec "openscriptmenu character 12";
+            }
+        }
+
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 12 && stat(2326) < 11 )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Requires Prestige 11"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 12 && stat(2326) < 11 )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 295 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 295 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_char" ) == 13 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 295 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 981 ) == 13 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 295 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Miku"
+            visible                   when ( stat( 2326 ) >= 12 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 295 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Miku"
+            visible                   when ( stat( 2326 ) < 12 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 295 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_char 13;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_char 0;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_char 13;
+                exec "openscriptmenu character 13";
+            }
+        }
+
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 13 && stat(2326) < 12 )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Requires Prestige 12"
+            visible                   when ( localvarint( "ui_highlight_char" ) == 13 && stat(2326) < 12 )
+            decoration
+        }
+
+    }
+
+        }

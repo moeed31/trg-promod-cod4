@@ -1,0 +1,2044 @@
+#include "ui/menudef.h"
+#include "ui_mp/menustyle.inc"
+#include "ui/choices_setup_common.menu"
+#include "ui_mp/spray_common.inc"
+
+{
+    menuDef
+    {
+        name                      "gloves"
+        rect                      0 0 640 480 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+        borderSize                1
+        foreColor                 1 1 1 1
+        backColor                 0 0 0 0
+        borderColor               0 0 0 0
+        outlineColor              0 0 0 0
+        onOpen
+        {
+            setLocalVarInt ui_highlight_glove 0;
+            setLocalVarInt ui_hover_glove 0;
+            setDvar cg_drawGun 0;
+            exec "openscriptmenu gloves open_gloves";
+        }
+        onESC
+        {
+            setLocalVarInt ui_highlight_glove 0;
+            setLocalVarInt ui_hover_glove 0;
+            setDvar cg_drawGun 1;
+            exec "openscriptmenu gloves close_gloves";
+            close self;
+            open player_menu;
+        }
+
+        itemDef {
+            rect                      0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+            style                     WINDOW_STYLE_FILLED
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0.28
+            visible                   when ( dvarint( "sles_oldschool" ) != 1 )
+            decoration
+        }
+        itemDef {
+            rect                      0 0 270 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+            style                     WINDOW_STYLE_FILLED
+            backColor                 0 0 0 0.35
+            visible                   when ( dvarint( "sles_oldschool" ) != 1 )
+            decoration
+        }
+        itemDef {
+            rect                      -60 0 1 480 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 1 1 1 0.8
+            exp                       material ( ( ( "button_highlight_end" ) ) );
+            visible                   when ( dvarint( "sles_oldschool" ) != 1 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 20 300 30 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   when ( ( ! localvarbool( "ui_hideBack" ) && dvarint( "sles_oldschool" ) != 1 ) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 47 300 6 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 1 1 1 1
+            exp                       material ( ( ( "menu_button_backg" ) ) );
+            visible                   when ( ( ! localvarbool( "ui_hideBack" ) && dvarint( "sles_oldschool" ) != 1 ) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 20 300 30 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.95294 0.72156 0.21176 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.51
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "GLOVES"
+            visible                   when ( ( ! localvarbool( "ui_hideBack" ) && dvarint( "sles_oldschool" ) != 1 ) )
+        }
+
+        itemDef {
+            rect                      320 20 280 30 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.51
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "PREVIEW"
+            visible                   1
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 55 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 55 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_glove" ) == 41 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 55 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 980 ) == 0 )
+            decoration
+        }
+        
+        itemDef {
+            rect                      -40 55 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Default"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 1, 2) == "" || plevel >= tableLookup(CHAR_TABLE, 0, 1, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 55 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Default"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 1, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 1, 2) )
+            decoration
+        }
+        
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 41 && tableLookup(CHAR_TABLE, 0, 1, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 1, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text( "Requires Prestige " + (tableLookup(CHAR_TABLE, 0, 1, 2) - 1) )
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 41 && tableLookup(CHAR_TABLE, 0, 1, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 1, 2) )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 55 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 41;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_glove 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 41;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_glove 41;
+                exec "openscriptmenu gloves select_41";
+            }
+        }
+
+        itemDef {
+            rect                      -40 74 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 74 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_glove" ) == 42 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 74 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 980 ) == 1 )
+            decoration
+        }
+        
+        itemDef {
+            rect                      -40 74 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 2"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 2, 2) == "" || plevel >= tableLookup(CHAR_TABLE, 0, 2, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 74 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 2"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 2, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 2, 2) )
+            decoration
+        }
+        
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 42 && tableLookup(CHAR_TABLE, 0, 2, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 2, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text( "Requires Prestige " + (tableLookup(CHAR_TABLE, 0, 2, 2) - 1) )
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 42 && tableLookup(CHAR_TABLE, 0, 2, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 2, 2) )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 74 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 42;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_glove 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 42;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_glove 42;
+                exec "openscriptmenu gloves select_42";
+            }
+        }
+
+        itemDef {
+            rect                      -40 93 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 93 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_glove" ) == 43 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 93 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 980 ) == 2 )
+            decoration
+        }
+        
+        itemDef {
+            rect                      -40 93 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 3"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 3, 2) == "" || plevel >= tableLookup(CHAR_TABLE, 0, 3, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 93 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 3"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 3, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 3, 2) )
+            decoration
+        }
+        
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 43 && tableLookup(CHAR_TABLE, 0, 3, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 3, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text( "Requires Prestige " + (tableLookup(CHAR_TABLE, 0, 3, 2) - 1) )
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 43 && tableLookup(CHAR_TABLE, 0, 3, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 3, 2) )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 93 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 43;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_glove 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 43;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_glove 43;
+                exec "openscriptmenu gloves select_43";
+            }
+        }
+
+        itemDef {
+            rect                      -40 112 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 112 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_glove" ) == 44 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 112 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 980 ) == 3 )
+            decoration
+        }
+        
+        itemDef {
+            rect                      -40 112 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 4"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 4, 2) == "" || plevel >= tableLookup(CHAR_TABLE, 0, 4, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 112 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 4"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 4, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 4, 2) )
+            decoration
+        }
+        
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 44 && tableLookup(CHAR_TABLE, 0, 4, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 4, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text( "Requires Prestige " + (tableLookup(CHAR_TABLE, 0, 4, 2) - 1) )
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 44 && tableLookup(CHAR_TABLE, 0, 4, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 4, 2) )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 112 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 44;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_glove 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 44;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_glove 44;
+                exec "openscriptmenu gloves select_44";
+            }
+        }
+
+        itemDef {
+            rect                      -40 131 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 131 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_glove" ) == 45 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 131 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 980 ) == 4 )
+            decoration
+        }
+        
+        itemDef {
+            rect                      -40 131 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 5"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 5, 2) == "" || plevel >= tableLookup(CHAR_TABLE, 0, 5, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 131 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 5"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 5, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 5, 2) )
+            decoration
+        }
+        
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 45 && tableLookup(CHAR_TABLE, 0, 5, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 5, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text( "Requires Prestige " + (tableLookup(CHAR_TABLE, 0, 5, 2) - 1) )
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 45 && tableLookup(CHAR_TABLE, 0, 5, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 5, 2) )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 131 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 45;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_glove 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 45;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_glove 45;
+                exec "openscriptmenu gloves select_45";
+            }
+        }
+
+        itemDef {
+            rect                      -40 150 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 150 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_glove" ) == 46 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 150 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 980 ) == 5 )
+            decoration
+        }
+        
+        itemDef {
+            rect                      -40 150 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 6"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 6, 2) == "" || plevel >= tableLookup(CHAR_TABLE, 0, 6, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 150 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 6"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 6, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 6, 2) )
+            decoration
+        }
+        
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 46 && tableLookup(CHAR_TABLE, 0, 6, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 6, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text( "Requires Prestige " + (tableLookup(CHAR_TABLE, 0, 6, 2) - 1) )
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 46 && tableLookup(CHAR_TABLE, 0, 6, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 6, 2) )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 150 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 46;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_glove 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 46;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_glove 46;
+                exec "openscriptmenu gloves select_46";
+            }
+        }
+
+        itemDef {
+            rect                      -40 169 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 169 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_glove" ) == 47 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 169 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 980 ) == 6 )
+            decoration
+        }
+        
+        itemDef {
+            rect                      -40 169 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 7"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 7, 2) == "" || plevel >= tableLookup(CHAR_TABLE, 0, 7, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 169 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 7"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 7, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 7, 2) )
+            decoration
+        }
+        
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 47 && tableLookup(CHAR_TABLE, 0, 7, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 7, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text( "Requires Prestige " + (tableLookup(CHAR_TABLE, 0, 7, 2) - 1) )
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 47 && tableLookup(CHAR_TABLE, 0, 7, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 7, 2) )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 169 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 47;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_glove 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 47;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_glove 47;
+                exec "openscriptmenu gloves select_47";
+            }
+        }
+
+        itemDef {
+            rect                      -40 188 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 188 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_glove" ) == 48 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 188 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 980 ) == 7 )
+            decoration
+        }
+        
+        itemDef {
+            rect                      -40 188 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 8"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 8, 2) == "" || plevel >= tableLookup(CHAR_TABLE, 0, 8, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 188 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 8"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 8, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 8, 2) )
+            decoration
+        }
+        
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 48 && tableLookup(CHAR_TABLE, 0, 8, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 8, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text( "Requires Prestige " + (tableLookup(CHAR_TABLE, 0, 8, 2) - 1) )
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 48 && tableLookup(CHAR_TABLE, 0, 8, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 8, 2) )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 188 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 48;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_glove 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 48;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_glove 48;
+                exec "openscriptmenu gloves select_48";
+            }
+        }
+
+        itemDef {
+            rect                      -40 207 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 207 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_glove" ) == 49 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 207 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 980 ) == 8 )
+            decoration
+        }
+        
+        itemDef {
+            rect                      -40 207 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 9"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 9, 2) == "" || plevel >= tableLookup(CHAR_TABLE, 0, 9, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 207 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 9"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 9, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 9, 2) )
+            decoration
+        }
+        
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 49 && tableLookup(CHAR_TABLE, 0, 9, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 9, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text( "Requires Prestige " + (tableLookup(CHAR_TABLE, 0, 9, 2) - 1) )
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 49 && tableLookup(CHAR_TABLE, 0, 9, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 9, 2) )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 207 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 49;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_glove 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 49;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_glove 49;
+                exec "openscriptmenu gloves select_49";
+            }
+        }
+
+        itemDef {
+            rect                      -40 226 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 226 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_glove" ) == 50 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 226 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 980 ) == 9 )
+            decoration
+        }
+        
+        itemDef {
+            rect                      -40 226 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 10"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 10, 2) == "" || plevel >= tableLookup(CHAR_TABLE, 0, 10, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 226 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 10"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 10, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 10, 2) )
+            decoration
+        }
+        
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 50 && tableLookup(CHAR_TABLE, 0, 10, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 10, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text( "Requires Prestige " + (tableLookup(CHAR_TABLE, 0, 10, 2) - 1) )
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 50 && tableLookup(CHAR_TABLE, 0, 10, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 10, 2) )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 226 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 50;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_glove 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 50;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_glove 50;
+                exec "openscriptmenu gloves select_50";
+            }
+        }
+
+        itemDef {
+            rect                      -40 245 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 245 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_glove" ) == 51 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 245 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 980 ) == 10 )
+            decoration
+        }
+        
+        itemDef {
+            rect                      -40 245 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 11"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 11, 2) == "" || plevel >= tableLookup(CHAR_TABLE, 0, 11, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 245 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 11"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 11, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 11, 2) )
+            decoration
+        }
+        
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 51 && tableLookup(CHAR_TABLE, 0, 11, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 11, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text( "Requires Prestige " + (tableLookup(CHAR_TABLE, 0, 11, 2) - 1) )
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 51 && tableLookup(CHAR_TABLE, 0, 11, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 11, 2) )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 245 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 51;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_glove 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 51;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_glove 51;
+                exec "openscriptmenu gloves select_51";
+            }
+        }
+
+        itemDef {
+            rect                      -40 264 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 264 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_glove" ) == 52 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 264 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 980 ) == 11 )
+            decoration
+        }
+        
+        itemDef {
+            rect                      -40 264 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 12"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 12, 2) == "" || plevel >= tableLookup(CHAR_TABLE, 0, 12, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 264 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 12"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 12, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 12, 2) )
+            decoration
+        }
+        
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 52 && tableLookup(CHAR_TABLE, 0, 12, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 12, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text( "Requires Prestige " + (tableLookup(CHAR_TABLE, 0, 12, 2) - 1) )
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 52 && tableLookup(CHAR_TABLE, 0, 12, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 12, 2) )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 264 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 52;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_glove 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 52;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_glove 52;
+                exec "openscriptmenu gloves select_52";
+            }
+        }
+
+        itemDef {
+            rect                      -40 283 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 283 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_glove" ) == 53 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 283 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 980 ) == 12 )
+            decoration
+        }
+        
+        itemDef {
+            rect                      -40 283 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 13"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 13, 2) == "" || plevel >= tableLookup(CHAR_TABLE, 0, 13, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 283 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 13"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 13, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 13, 2) )
+            decoration
+        }
+        
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 53 && tableLookup(CHAR_TABLE, 0, 13, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 13, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text( "Requires Prestige " + (tableLookup(CHAR_TABLE, 0, 13, 2) - 1) )
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 53 && tableLookup(CHAR_TABLE, 0, 13, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 13, 2) )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 283 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 53;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_glove 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 53;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_glove 53;
+                exec "openscriptmenu gloves select_53";
+            }
+        }
+
+        itemDef {
+            rect                      -40 302 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 302 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_glove" ) == 54 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 302 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 980 ) == 13 )
+            decoration
+        }
+        
+        itemDef {
+            rect                      -40 302 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 14"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 14, 2) == "" || plevel >= tableLookup(CHAR_TABLE, 0, 14, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 302 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 14"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 14, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 14, 2) )
+            decoration
+        }
+        
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 54 && tableLookup(CHAR_TABLE, 0, 14, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 14, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text( "Requires Prestige " + (tableLookup(CHAR_TABLE, 0, 14, 2) - 1) )
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 54 && tableLookup(CHAR_TABLE, 0, 14, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 14, 2) )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 302 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 54;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_glove 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 54;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_glove 54;
+                exec "openscriptmenu gloves select_54";
+            }
+        }
+
+        itemDef {
+            rect                      -40 321 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 321 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_glove" ) == 55 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 321 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 980 ) == 14 )
+            decoration
+        }
+        
+        itemDef {
+            rect                      -40 321 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 15"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 15, 2) == "" || plevel >= tableLookup(CHAR_TABLE, 0, 15, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 321 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 15"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 15, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 15, 2) )
+            decoration
+        }
+        
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 55 && tableLookup(CHAR_TABLE, 0, 15, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 15, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text( "Requires Prestige " + (tableLookup(CHAR_TABLE, 0, 15, 2) - 1) )
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 55 && tableLookup(CHAR_TABLE, 0, 15, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 15, 2) )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 321 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 55;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_glove 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 55;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_glove 55;
+                exec "openscriptmenu gloves select_55";
+            }
+        }
+
+        itemDef {
+            rect                      -40 340 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 340 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_glove" ) == 56 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 340 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 980 ) == 15 )
+            decoration
+        }
+        
+        itemDef {
+            rect                      -40 340 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 16"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 16, 2) == "" || plevel >= tableLookup(CHAR_TABLE, 0, 16, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 340 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 16"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 16, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 16, 2) )
+            decoration
+        }
+        
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 56 && tableLookup(CHAR_TABLE, 0, 16, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 16, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text( "Requires Prestige " + (tableLookup(CHAR_TABLE, 0, 16, 2) - 1) )
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 56 && tableLookup(CHAR_TABLE, 0, 16, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 16, 2) )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 340 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 56;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_glove 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 56;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_glove 56;
+                exec "openscriptmenu gloves select_56";
+            }
+        }
+
+        itemDef {
+            rect                      -40 359 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 359 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_glove" ) == 57 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 359 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 980 ) == 16 )
+            decoration
+        }
+        
+        itemDef {
+            rect                      -40 359 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 17"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 17, 2) == "" || plevel >= tableLookup(CHAR_TABLE, 0, 17, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 359 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 17"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 17, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 17, 2) )
+            decoration
+        }
+        
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 57 && tableLookup(CHAR_TABLE, 0, 17, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 17, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text( "Requires Prestige " + (tableLookup(CHAR_TABLE, 0, 17, 2) - 1) )
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 57 && tableLookup(CHAR_TABLE, 0, 17, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 17, 2) )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 359 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 57;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_glove 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 57;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_glove 57;
+                exec "openscriptmenu gloves select_57";
+            }
+        }
+
+        itemDef {
+            rect                      -40 378 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 378 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_glove" ) == 58 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 378 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 980 ) == 17 )
+            decoration
+        }
+        
+        itemDef {
+            rect                      -40 378 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 18"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 18, 2) == "" || plevel >= tableLookup(CHAR_TABLE, 0, 18, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 378 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 18"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 18, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 18, 2) )
+            decoration
+        }
+        
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 58 && tableLookup(CHAR_TABLE, 0, 18, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 18, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text( "Requires Prestige " + (tableLookup(CHAR_TABLE, 0, 18, 2) - 1) )
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 58 && tableLookup(CHAR_TABLE, 0, 18, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 18, 2) )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 378 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 58;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_glove 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 58;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_glove 58;
+                exec "openscriptmenu gloves select_58";
+            }
+        }
+
+        itemDef {
+            rect                      -40 397 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 397 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_glove" ) == 59 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 397 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 980 ) == 18 )
+            decoration
+        }
+        
+        itemDef {
+            rect                      -40 397 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 19"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 19, 2) == "" || plevel >= tableLookup(CHAR_TABLE, 0, 19, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 397 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 19"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 19, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 19, 2) )
+            decoration
+        }
+        
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 59 && tableLookup(CHAR_TABLE, 0, 19, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 19, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text( "Requires Prestige " + (tableLookup(CHAR_TABLE, 0, 19, 2) - 1) )
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 59 && tableLookup(CHAR_TABLE, 0, 19, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 19, 2) )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 397 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 59;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_glove 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 59;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_glove 59;
+                exec "openscriptmenu gloves select_59";
+            }
+        }
+
+        itemDef {
+            rect                      -40 416 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 416 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_glove" ) == 60 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 416 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.2 0.8 0.2 1
+            background                "menu_button_backg"
+            visible                   when ( stat( 980 ) == 19 )
+            decoration
+        }
+        
+        itemDef {
+            rect                      -40 416 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 20"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 20, 2) == "" || plevel >= tableLookup(CHAR_TABLE, 0, 20, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      -40 416 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 0.5 0.5 0.5 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Glove Style 20"
+            visible                   when ( tableLookup(CHAR_TABLE, 0, 20, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 20, 2) )
+            decoration
+        }
+        
+        itemDef {
+            rect                      320 200 280 40 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 0.2 0.2 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.8
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "LOCKED"
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 60 && tableLookup(CHAR_TABLE, 0, 20, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 20, 2) )
+            decoration
+        }
+        itemDef {
+            rect                      320 230 280 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            foreColor                 1 1 1 0.8
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_CENTER
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text( "Requires Prestige " + (tableLookup(CHAR_TABLE, 0, 20, 2) - 1) )
+            visible                   when ( localvarint( "ui_highlight_glove" ) == 60 && tableLookup(CHAR_TABLE, 0, 20, 2) != "" && plevel < tableLookup(CHAR_TABLE, 0, 20, 2) )
+            decoration
+        }
+
+        itemDef {
+            rect                      -40 416 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 60;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_glove 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_glove 60;
+            }
+            action {
+                play "mouse_click";
+                setLocalVarInt ui_highlight_glove 60;
+                exec "openscriptmenu gloves select_60";
+            }
+        }
+
+        itemDef {
+            rect                      -40 440 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 0.4
+            background                "menu_button_backg"
+            visible                   1
+            decoration
+        }
+        itemDef {
+            rect                      -40 440 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            foreColor                 0.445 0.457 0.527 1
+            background                "menu_button_backg"
+            visible                   when ( localvarint( "ui_hover_back" ) == 1 )
+            decoration
+        }
+        itemDef {
+            rect                      -40 440 300 19 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            type                      ITEM_TYPE_BUTTON
+            style                     WINDOW_STYLE_FILLED
+            foreColor                 1 1 1 1
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.35
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "BACK"
+            visible                   1
+            onFocus {
+                play "mouse_over";
+                setLocalVarInt ui_hover_back 1;
+            }
+            leaveFocus {
+                setLocalVarInt ui_hover_back 0;
+            }
+            mouseEnter {
+                play "mouse_over";
+                setLocalVarInt ui_hover_back 1;
+            }
+            action {
+                play "mouse_click";
+                setDvar cg_drawGun 1;
+                exec "openscriptmenu gloves close_gloves";
+                close self;
+                open player_menu;
+            }
+        }
+    }
+}

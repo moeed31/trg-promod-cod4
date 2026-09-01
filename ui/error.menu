@@ -1,0 +1,188 @@
+#include "ui/menudef.h"
+#include "ui_mp/common_macro.inc"
+{	
+	menuDef
+	{
+	    rect            FULLSCREEN_WIDE
+		name			"error_popmenu"
+		fullScreen		1
+		visible			1		
+		onClose
+		{
+			uiScript clearError;
+		}
+		onEsc
+		{
+			uiScript clearError;
+			close error_popmenu;
+			open main_text;
+		}
+		
+		//Background
+		itemDef
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			FULLSCREEN_WIDE
+			backcolor		0.05 0.05 0.05 0.95
+			visible			1
+			decoration
+		}
+
+		// // Top and bottom fill
+		// itemDef 
+		// {
+		// 	style			WINDOW_STYLE_FILLED
+		// 	rect			0 0 1000 90 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+		// 	backcolor		0 0 0 0.6
+		// 	visible			1	
+		// }
+		// itemDef 
+		// {
+		// 	style			WINDOW_STYLE_FILLED
+		// 	rect			0 -35 1000 47 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
+		// 	backcolor		0 0 0 0.6
+		// 	visible			1	
+		// }
+		// // Top and bottom lines
+		// itemDef 
+		// {
+		// 	style			WINDOW_STYLE_FILLED
+		// 	rect			0 90 1000 1 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+		// 	backcolor		0.08 0.02 0.42  1
+		// 	visible			1	
+		// }
+		// itemDef 
+		// {
+		// 	style			WINDOW_STYLE_FILLED
+		// 	rect			0 -45 1000 1 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
+		// 	backcolor		0.08 0.02 0.42  1
+		// 	visible			1	
+		// }
+		// itemDef 
+		// {
+		// 	style			WINDOW_STYLE_FILLED
+		// 	rect			0 89 1000 1 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+		// 	backcolor		0 0 0 1
+		// 	visible			1	
+		// }
+		// itemDef 
+		// {
+		// 	style			WINDOW_STYLE_FILLED
+		// 	rect			0 -44 1000 1.5 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
+		// 	backcolor		0 0 0 1
+		// 	visible			1	
+		// }
+		// itemDef 
+		// {
+		// 	style			WINDOW_STYLE_FILLED
+		// 	rect			0 -46 1000 1 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
+		// 	backcolor		0 0 0 1
+		// 	visible			1	
+		// }
+		// Header bar at error
+		itemDef
+		{
+			style           WINDOW_STYLE_FILLED
+			rect 			-128 -93 256 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
+            backcolor       0 0.8 1 0.6
+			border			1
+			bordercolor		0 0.8 1 0.6
+            visible 		1
+		}
+		// Error text
+		itemDef
+		{
+			name			confirm
+			rect			-128 -70 256 0 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
+			style			WINDOW_STYLE_EMPTY
+			textstyle		ITEM_TEXTSTYLE_SHADOWEDMORE
+			dvar			"com_errorTitle"
+			textscale		TEXTSIZE_TITLE
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.95 0.95 0.95 1
+			visible			1
+			decoration
+			autowrapped
+		}
+		// Content box
+		itemDef
+		{
+			style           WINDOW_STYLE_FILLED
+			rect 			-128 -73 256 100 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
+            backcolor       0.05 0.05 0.05 0.95
+			border			1
+			bordercolor		0 0.8 1 0.6
+            visible 		1
+		}
+		// Error info text
+		itemDef
+		{
+			name			errorinfo
+			rect			-128 -45 256 0 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER			
+			style			WINDOW_STYLE_EMPTY
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			dvar			"com_errorMessage"
+			textscale		.35
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		1 1 1 0.9
+			visible			1
+			decoration
+			autowrapped
+		}
+		// Reconnect button
+		itemDef
+		{
+			rect			-40 35 80 15 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
+			style			WINDOW_STYLE_FILLED
+			text			"Reconnect"
+			type			ITEM_TYPE_BUTTON
+			textscale		.3
+			textfont		UI_FONT_NORMAL
+			textalign		ITEM_ALIGN_CENTER
+			textaligny		13
+			forecolor		0.95 0.95 0.95 1
+			backcolor		0.3 0.3 0.3 0.75
+			border			1
+			bordercolor		0.1 0.1 0.1 0.8
+			visible			1
+			onFocus
+			{
+				play "so_mouse_over";
+			}
+			action
+			{
+				play "mouse_click";
+				execNow "reconnect";
+			}
+		}
+		// Exit button
+		itemDef
+		{
+			name			back
+			rect			-40 55 80 15 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
+			style			WINDOW_STYLE_FILLED
+			text			"@MENU_EXIT"
+			type			ITEM_TYPE_BUTTON
+			textscale		.3
+			textfont		UI_FONT_NORMAL
+			textalign		ITEM_ALIGN_CENTER
+			textaligny		13
+			forecolor		0.95 0.95 0.95 1
+			backcolor		0.3 0.3 0.3 0.75
+			border			1
+			bordercolor		0.1 0.1 0.1 0.8
+			visible			1
+			onFocus
+			{
+				play "so_mouse_over";
+			}
+			action
+			{
+				play "mouse_click";
+				uiScript clearError;
+				close error_popmenu;
+				open main_text;
+			}
+		}
+	}
+	#include "ui/safearea.menu"

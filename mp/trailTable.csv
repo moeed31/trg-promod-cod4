@@ -1,0 +1,20 @@
+1,0,1,none,None,0,white
+2,1,48,trail/trail_geo_blue,Geo Blue,1,gfx_trail_geo
+3,2,45,trail/trail_geo_orange,Geo Orange,1,gfx_trail_geo
+4,3,43,trail/trail_geo_red,Geo Red,1,gfx_trail_geo
+5,4,40,trail/trail_geo_purple,Geo Purple,1,gfx_trail_geo
+6,5,34,trail/trail_geo_yellow,Geo Yellow,1,gfx_trail_geo
+7,6,32,trail/trail_geo_green,Geo Green,1,gfx_trail_geo
+8,7,37,trail/trail_geo_black_white,Geo Black & White,1,gfx_trail_geo
+9,8,5,trail/trail_fire,Fire,0,white
+10,9,23,trail/trail_water,Water,0,white
+11,10,10,trail/trail_smoke,Smoke,0,white
+12,11,17,trail/trail_stars,Stars,0,white
+13,12,21,trail/trail_dots,Dots,0,white
+14,13,15,trail/trail_nuke,Nuke,0,gfx_trail_nuke
+15,14,13,trail/trail_dragon_fire,Dragon Fire,0,gfx_trail_dragon_fire
+16,15,19,trail/trail_spooderman,Spooderman,0,gfx_trail_spooderman
+17,16,26,trail/trail_dolan,Dolan,0,gfx_trail_dolan
+18,17,7,trail/trail_pepe,Pepe,0,gfx_trail_pepe
+19,18,3,trail/trail_mushroom,Mushroom,0,gfx_trail_mushroom
+20,19,29,trail/trail_watermelon,Watermelon,0,white

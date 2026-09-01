@@ -1,0 +1,597 @@
+#include "ui/menudef.h"
+
+#define MAXNUM 3
+#define COL( itemIndex )         ((itemIndex - 1 - ((itemIndex - 1) % MAXNUM)) / MAXNUM)
+#define ROW( itemIndex )         ((itemIndex - 1) % MAXNUM)
+#define MAXNUM2 1
+#define COL2( itemIndex )         ((itemIndex - 1 - ((itemIndex - 1) % MAXNUM2)) / MAXNUM2)
+#define ROW2( itemIndex )         ((itemIndex - 1) % MAXNUM2)
+#define MAXNUM3 3
+#define COL3( itemIndex )         ((itemIndex - 1 - ((itemIndex - 1) % MAXNUM3)) / MAXNUM3)
+#define ROW3( itemIndex )         ((itemIndex - 1) % MAXNUM3)
+#define MAXNUM4 2
+#define COL4( itemIndex )         ((itemIndex - 1 - ((itemIndex - 1) % MAXNUM4)) / MAXNUM4)
+#define ROW4( itemIndex )         ((itemIndex - 1) % MAXNUM4)
+
+#define PRESTIGE stat(2326)
+
+#define BUTTON(itemNum,textArg,responseArg,onFocusArg) \
+	itemDef \
+	{ \
+		name				"chal_btn_" #itemNum \
+		type 				ITEM_TYPE_BUTTON \
+		style				WINDOW_STYLE_FILLED \
+		rect				(45 + COL( itemNum ) * 120) (78 + ROW( itemNum )*24) 110 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		forecolor			0.93 0.93 0.93 1.0 \
+		border				1 \
+		bordercolor			0.3 0.3 0.3 0.5 \
+		backcolor			0 0 0 0.25 \
+		visible				1 \
+		exp					text(textArg) \
+		textfont			UI_FONT_NORMAL \
+		textscale			0.23 \
+		textalign			ITEM_ALIGN_CENTER \
+		textaligny			15 \
+		mouseEnter 			{ play "mouse_over"; \
+		setitemcolor "chal_btn_" #itemNum backcolor 0.3 0.3 0.3 0.5; \
+		setLocalVarString ui_hintstring "^8>> ^7"onFocusArg \
+		} \
+		mouseExit 			{ \
+		setitemcolor "chal_btn_" #itemNum backcolor 0 0 0 0.25; \
+		setLocalVarString ui_hintstring "^8>> ^7" \
+		} \
+		action 				{ play "mouse_click"; \
+		scriptMenuResponse  responseArg;  \
+		}  \
+	}
+	
+#define BUTTON_2(itemNum,textArg,responseArg,onFocusArg) \
+	itemDef \
+	{ \
+		name				"pres_btn2_" #itemNum \
+		type 				ITEM_TYPE_BUTTON \
+		style				WINDOW_STYLE_FILLED \
+		rect				(45 + COL4( itemNum ) * 120) (302 + ROW4( itemNum )*24) 110 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		forecolor			0.93 0.93 0.93 1.0 \
+		border				1 \
+		bordercolor			0.3 0.3 0.3 0.5 \
+		backcolor			0 0 0 0.25 \
+		visible				1 \
+		exp					text(textArg) \
+		textfont			UI_FONT_NORMAL \
+		textscale			0.23 \
+		textalign			ITEM_ALIGN_CENTER \
+		textaligny			15 \
+		mouseEnter 			{ play "mouse_over"; \
+		setitemcolor "pres_btn2_" #itemNum backcolor 0.3 0.3 0.3 0.5; \
+		setLocalVarString ui_hintstring "^8>> ^7"onFocusArg \
+		} \
+		mouseExit 			{ \
+		setitemcolor "pres_btn2_" #itemNum backcolor 0 0 0 0.25; \
+		setLocalVarString ui_hintstring "^8>> ^7" \
+		} \
+		action 				{ play "mouse_click"; \
+		scriptMenuResponse responseArg; close self;\
+		}  \
+	}
+	
+#define BUTTON_3(itemNum,textArg,responseArg,onFocusArg,statVal) \
+	itemDef \
+	{ \
+		name				"act_btn_" #itemNum \
+		type 				ITEM_TYPE_BUTTON \
+		style				WINDOW_STYLE_FILLED \
+		rect				(45 + (itemNum==6)*170) 178 160 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		forecolor			0.93 0.93 0.93 1.0 \
+		border				1 \
+		bordercolor			0.3 0.3 0.3 0.5 \
+		backcolor			0 0 0 0.25 \
+		visible				when(statVal >= 1) \
+		exp					text(textArg) \
+		textfont			UI_FONT_NORMAL \
+		textscale			0.22 \
+		textalign			ITEM_ALIGN_CENTER \
+		textaligny			15 \
+		mouseEnter 			{ play "mouse_over"; \
+		setitemcolor "act_btn_" #itemNum backcolor 0.3 0.3 0.3 0.5; \
+		setLocalVarString ui_hintstring "^8>> ^7"onFocusArg \
+		} \
+		mouseExit 			{ \
+		setitemcolor "act_btn_" #itemNum backcolor 0 0 0 0.25; \
+		setLocalVarString ui_hintstring "^8>> ^7" \
+		} \
+		action 				{ play "mouse_click"; \
+		scriptMenuResponse responseArg;  \
+		close self; \
+		}  \
+	}
+
+#define BUTTON_4(itemNum,textArg,responseArg,onFocusArg) \
+	itemDef \
+	{ \
+		name				"pres_btn4_" #itemNum \
+		type 				ITEM_TYPE_BUTTON \
+		style				WINDOW_STYLE_FILLED \
+		rect				(45 + COL4( itemNum ) * 120) (278 + ROW4( itemNum )*24) 110 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		forecolor			0.93 0.93 0.93 1.0 \
+		border				1 \
+		bordercolor			0.3 0.3 0.3 0.5 \
+		backcolor			0 0 0 0.25 \
+		visible				1 \
+		exp					text(textArg) \
+		textfont			UI_FONT_NORMAL \
+		textscale			0.23 \
+		textalign			ITEM_ALIGN_CENTER \
+		textaligny			15 \
+		mouseEnter 			{ play "mouse_over"; \
+		setitemcolor "pres_btn4_" #itemNum backcolor 0.3 0.3 0.3 0.5; \
+		setLocalVarString ui_hintstring "^8>> ^7"onFocusArg \
+		} \
+		mouseExit 			{ \
+		setitemcolor "pres_btn4_" #itemNum backcolor 0 0 0 0.25; \
+		setLocalVarString ui_hintstring "^8>> ^7" \
+		} \
+		action 				{ play "mouse_click"; \
+		scriptMenuResponse responseArg;  \
+		close self; \
+		}  \
+	}
+
+
+#define BUTTON_TOGGLE_LOCK(itemNum,responseArg,onFocusArg) \
+	itemDef \
+	{ \
+		name				"pres_btn_lock_" #itemNum \
+		type 				ITEM_TYPE_BUTTON \
+		style				WINDOW_STYLE_FILLED \
+		rect				(45 + COL4( itemNum ) * 120) (278 + ROW4( itemNum )*24) 110 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		forecolor			0.93 0.93 0.93 1.0 \
+		border				1 \
+		bordercolor			0.3 0.3 0.3 0.5 \
+		backcolor			0 0 0 0.25 \
+		visible				when(stat(3110) == 0) \
+		text				"Toggle reset lock" \
+		textfont			UI_FONT_NORMAL \
+		textscale			0.23 \
+		textalign			ITEM_ALIGN_CENTER \
+		textaligny			15 \
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pres_btn_lock_" #itemNum backcolor 0.3 0.3 0.3 0.5; setLocalVarString ui_hintstring "^8>> ^7"onFocusArg } \
+		mouseExit 			{ setitemcolor "pres_btn_lock_" #itemNum backcolor 0 0 0 0.25; setLocalVarString ui_hintstring "^8>> ^7" } \
+		action 				{ play "mouse_click"; scriptMenuResponse responseArg; }  \
+	} \
+	itemDef \
+	{ \
+		name				"pres_btn_unlock_" #itemNum \
+		type 				ITEM_TYPE_BUTTON \
+		style				WINDOW_STYLE_FILLED \
+		rect				(45 + COL4( itemNum ) * 120) (278 + ROW4( itemNum )*24) 110 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		forecolor			0.2 1.0 0.2 1.0 \
+		border				1 \
+		bordercolor			0.3 0.3 0.3 0.5 \
+		backcolor			0 0 0 0.25 \
+		visible				when(stat(3110) == 1) \
+		text				"RESET UNLOCKED" \
+		textfont			UI_FONT_NORMAL \
+		textscale			0.23 \
+		textalign			ITEM_ALIGN_CENTER \
+		textaligny			15 \
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pres_btn_unlock_" #itemNum backcolor 0.3 0.3 0.3 0.5; setLocalVarString ui_hintstring "^8>> ^7"onFocusArg } \
+		mouseExit 			{ setitemcolor "pres_btn_unlock_" #itemNum backcolor 0 0 0 0.25; setLocalVarString ui_hintstring "^8>> ^7" } \
+		action 				{ play "mouse_click"; scriptMenuResponse responseArg; }  \
+	}
+#include "ui_mp/menustyle.inc"
+
+// --- MODERN STYLE OVERRIDES ---
+#undef CHOICE_Y_SPACING
+#define CHOICE_Y_SPACING		(CHOICE_SIZE_Y+7)
+
+#undef HIGHLIGHT_SHADER
+#define HIGHLIGHT_SHADER		"menu_button_backg"
+
+#undef HIGHLIGHT_COLOR
+#define HIGHLIGHT_COLOR			0.445 0.457 0.527 1
+
+#undef CHOICE_BUTTON_BG
+#define CHOICE_BUTTON_BG( itemIndex, visArg ) \
+    itemDef { \
+        style           WINDOW_STYLE_SHADER \
+        rect            CHOICE_RECT( itemIndex ) \
+        background      "menu_button_backg" \
+        forecolor       0.445 0.457 0.527 0.4 \
+        visible         visArg \
+        decoration }
+// ------------------------------
+
+
+{
+	menuDef 
+	{
+		name 			"prestige"
+		rect			0 0 640 480 
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		7
+		visible			1		
+		onOpen
+		{
+			setLocalVarString ui_hintstring "^8>> ^7";
+		}
+		onEsc
+		{
+			close self;
+			open class;
+		}
+		onClose
+		{
+			scriptMenuResponse "force_reset_lock";
+		}
+
+		// 1. Deep Black Immersive Background
+		
+
+
+		// 2. Subtle esports background glow
+		
+
+		// 4. Header title
+		
+        // 1. Deep Black Immersive Background
+        itemDef
+        {
+            style                     WINDOW_STYLE_FILLED
+            rect                      0 0 530 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+            backColor                 0 0 0 0.75
+            visible                   1
+            decoration                
+        }
+        
+        // 2. Animated Fog Background
+        itemDef
+        {
+            rect                      -107 0 1708 480 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.7
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "animbg_fogscroll"
+            textScale                 0.55
+            exp                       rect X ( ( ( ( - 107 ) - ( ( float( milliseconds( ) % 60000 ) / 60000 ) * ( 854 ) ) ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -107 0 1708 480 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.7
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "animbg_fogscrollthin"
+            textScale                 0.55
+            exp                       rect X ( ( ( ( - 961 ) + ( ( float( milliseconds( ) % 100000 ) / 100000 ) * ( 854 ) ) ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        
+        // 3. Dark Overlay
+        itemDef
+        {
+            rect                      0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+            style                     WINDOW_STYLE_FILLED
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0.28
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+// Left Panel Edge Glow
+        itemDef
+        {
+            rect 180 0 1 480 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.8
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            exp                       material ( ( ( "button_highlight_end" ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        itemDef
+        {
+            rect 180 0 8 480 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.75
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            exp                       material ( ( ( "gradient" ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+
+        // Title
+        itemDef
+        {
+            rect                      30 18 360 30 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      30 45 360 6 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            exp                       material ( ( ( "menu_button_backg" ) ) );
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      30 18 360 30 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 0.95294 0.72156 0.21176 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -10
+            textScale                 0.51
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "CHALLENGES & PRESTIGE LOGS"
+            visible                   1
+        }
+
+		// Section headers inside Left Box
+		// CHALLENGES SELECTION HEADER
+		itemDef
+		{
+			rect			45 60 300 0 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		1 1 1 1
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			exp text		("SELECT CHALLENGE OBJECTIVE")
+			textfont		UI_FONT_NORMAL
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			textaligny		14
+			visible			1
+			decoration
+		}
+		
+		// CHALLENGE ACTIVATION HEADER
+		itemDef 
+		{
+			rect			45 160 300 0 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		1 1 1 1
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			exp text		("ACTIVE CHALLENGE PROGRESSION")
+			textfont		UI_FONT_NORMAL
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			textaligny		14
+ 			visible			1
+			decoration
+		}
+		
+		// PRESTIGE COMMANDS HEADER
+		itemDef 
+		{
+			rect			45 260 300 0 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		1 1 1 1
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			exp text		("PRESTIGE & RESET ACTIONS")
+			textfont		UI_FONT_NORMAL
+			textscale		0.3
+			textalign		ITEM_ALIGN_LEFT
+			textaligny		14
+ 			visible			1	
+			decoration
+		}
+
+		// Status Hint Bar
+		itemDef
+		{
+			rect			45 384 345 18 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			style			WINDOW_STYLE_FILLED
+			backcolor		0 0 0 0.25
+			border			1
+			bordercolor		0.3 0.3 0.3 0.5 // Electric Blue border
+			exp				text(localVarString("ui_hintstring"))
+			textfont		UI_FONT_NORMAL
+			textscale		0.20
+			forecolor		0.93 0.93 0.93 0.85
+			textalign		ITEM_ALIGN_LEFT
+			textalignx		5
+			textaligny		13
+			visible			1
+			decoration
+		} 
+
+		// BACK / CLOSE BUTTON
+		itemDef
+		{
+			rect			70 440 220 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+			style			WINDOW_STYLE_SHADER
+			borderSize		1
+			foreColor		0.445 0.457 0.527 0.4
+			backColor		0 0 0 0
+			borderColor		0 0 0 0
+			outlineColor	0 0 0 0
+			background		"menu_button_backg"
+			textScale		0.55
+			visible			1
+			decoration		
+		}
+		itemDef
+		{
+			name			"back_btn_glow"
+			rect			70 440 220 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+			style			WINDOW_STYLE_SHADER
+			borderSize		1
+			foreColor		0 0 0 0
+			backColor		0 0 0 0
+			borderColor		0 0 0 0
+			outlineColor	0 0 0 0
+			background		"menu_button_backg"
+			textScale		0.55
+			visible			1
+			decoration		
+		}
+		itemDef
+		{
+			name			"back_btn"
+			rect			70 440 220 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+			type			ITEM_TYPE_BUTTON
+			borderSize		1
+			foreColor		1 1 1 1
+			backColor		0 0 0 0
+			borderColor		0 0 0 0
+			outlineColor	0 0 0 0
+			textFont		UI_FONT_OBJECTIVE
+			textAlign		ITEM_ALIGN_MIDDLE_RIGHT
+			textAlignX		-25
+			textScale		0.45
+			textStyle		ITEM_TEXTSTYLE_SHADOWED
+			text			"BACK"
+			visible			1
+			action			{ play "mouse_click"; scriptMenuResponse playermenuclose; close self; }
+			mouseEnter		{ play "mouse_over"; setitemcolor "back_btn_glow" foreColor 1 1 1 1; }
+			mouseExit		{ setitemcolor "back_btn_glow" foreColor 0 0 0 0; }
+		}
+
+		// Grid choices
+		BUTTON(1,"Ninja",ninja,"Melee enemies. Backstabbing is preferred.")
+		BUTTON(2,"Demolition",demolition,"Get kills using grenades or explosive weapons.")
+		BUTTON(3,"Hitman",hitman,"Get pistol headshots, prone sniper kills, or backstabs.")
+		BUTTON(4,"Juggernaut",juggernaut,"Kill enemies while you are heavily injured.")
+		BUTTON(5,"Daredevil",daredevil,"Get a kill in the first 15 seconds or a distant crouched pistol kill.")
+		BUTTON(6,"Weirdo",weirdo,"Teabag a freshly killed enemy.")
+		BUTTON(7,"Assault",assault,"Get kills using assault rifles.")
+		BUTTON(8,"Tactician",tactician,"Steal enemy weapons or execute low health enemies.")
+		BUTTON(9,"Trickster",trickster,"Kill an enemy while you are in the air.")
+		
+		BUTTON_3(3,dvarString("ui_challenge_1"),selection_1,"Complete the required tasks to complete the challenge!",stat(3117))
+		BUTTON_3(6,dvarString("ui_challenge_2"),selection_2,"Activate special round for this challenge!",stat(3118))
+
+		BUTTON_4(1,"Prestige Up",prestige_up,"Advance to next prestige after completing challenges!")
+		BUTTON_2(2,"Prestige Reset",prestige_reset,"Reset everything back to zero, why even would you consider?")
+		BUTTON_TOGGLE_LOCK(3,reset_lock_toggle,"Lock or unlock the reset buttons to prevent accidents!")
+		BUTTON_2(4,"Reset challenges",challenge_reset,"Selected challenges too hard ? Reset them, but loose current progress!")
+
+		itemDef
+        {
+            rect -99 10 98 30 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 0.95294 0.72156 0.21176 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -10
+            textScale                 0.51
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "DIAGS"
+            visible                   1
+        }
+        itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect 520 45 90 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"menu_button_backg"
+			forecolor		1 1 1 0.4
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			rect 520 43 89 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textalign		ITEM_ALIGN_LEFT
+			textaligny		12
+			textscale		0.18
+			forecolor 1 1 1 1
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textfont		UI_FONT_NORMAL
+			text "            ACTIVE PROGRESS:"
+			visible			1
+			decoration
+		}
+
+		// Divider line below header
+
+		// ACTIVE READOUT LIST
+		// CURRENT PRESTIGE
+		itemDef
+		{
+			rect 520 84 160 15 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor 1 1 1 1 // Ice Blue label
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			exp text		("Prestige Level: ^2" + PRESTIGE)
+			textfont		UI_FONT_NORMAL
+			textscale		0.22
+			textalign		ITEM_ALIGN_LEFT
+			visible			1
+			decoration
+		}
+
+		// Row divider
+
+		#define CHAL_ROW( rIdx, rName, rStat, rTotalStat, rY ) \
+		itemDef { \
+			rect			520 rY 160 14 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+			forecolor 0.93 0.93 0.93 1 \
+			textstyle		ITEM_TEXTSTYLE_SHADOWED \
+			exp text		( rName + ": ^8" + stat(rStat) + "^7/^3" + stat(rTotalStat) ) \
+			textfont		UI_FONT_NORMAL \
+			textscale 0.2 \
+			textalign		ITEM_ALIGN_LEFT \
+			visible			1 \
+			decoration }
+
+		CHAL_ROW( 1, "Ninja", 3121, 3131, 102 )
+		CHAL_ROW( 2, "Demo", 3122, 3132, 118 )
+		CHAL_ROW( 3, "Hitman", 3123, 3133, 134 )
+		CHAL_ROW( 4, "Jugger", 3124, 3134, 150 )
+		CHAL_ROW( 5, "Daredevil", 3125, 3135, 166 )
+		CHAL_ROW( 6, "Weirdo", 3126, 3136, 182 )
+		CHAL_ROW( 7, "Assault", 3127, 3137, 198 )
+		CHAL_ROW( 8, "Tactician", 3128, 3138, 214 )
+		CHAL_ROW( 9, "Trickster", 3129, 3139, 230 )
+
+		// Subtle Semtex logo watermark
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect -306 -211 159 80 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_BOTTOM
+			background		"semtex_logo"
+			forecolor 1 1 1 0.8
+			visible			1
+			decoration
+		}
+	}
+}

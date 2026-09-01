@@ -1,0 +1,778 @@
+#include "ui/menudef.h"
+
+#define ADMIN_HEADING(xPos, yPos, textArg) \
+		itemDef \
+		{ \
+			rect			xPos yPos 140 18 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP \
+			style			WINDOW_STYLE_SHADER \
+			background		"menu_button_backg" \
+			forecolor		0.95 0.72 0.21 1 \
+			visible			1 \
+			decoration \
+		} \
+		itemDef \
+		{ \
+			rect			xPos yPos 140 18 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP \
+			textalign		ITEM_ALIGN_CENTER \
+			textaligny		14 \
+			textscale		0.22 \
+			forecolor		0 0 0 1 \
+			textstyle		ITEM_TEXTSTYLE_NORMAL \
+			textfont		UI_FONT_OBJECTIVE \
+			exp text		(textArg) \
+			visible			1 \
+			decoration \
+		}
+
+#define ADMIN_BTN(xPos, yPos, textArg, responseArg) \
+		itemDef \
+		{ \
+			name			"admin_btn_"#responseArg \
+			type 			ITEM_TYPE_BUTTON \
+			style			WINDOW_STYLE_FILLED \
+			rect			xPos yPos 140 18 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP \
+			forecolor		0.93 0.93 0.93 1.0 \
+			border			1 \
+			bordercolor		0.3 0.3 0.3 0.5 \
+			backcolor		0.15 0.15 0.15 0.7 \
+			visible			1 \
+			exp				text(textArg) \
+			textfont		UI_FONT_NORMAL \
+			textscale		0.20 \
+			textalign		ITEM_ALIGN_CENTER \
+			textaligny		14 \
+			mouseEnter 		{ play "mouse_over"; setitemcolor "admin_btn_"#responseArg backcolor 0.4 0.4 0.4 0.9; } \
+			mouseExit 		{ setitemcolor "admin_btn_"#responseArg backcolor 0.15 0.15 0.15 0.7; } \
+			action 			{ play "mouse_click"; scriptMenuResponse responseArg; }  \
+		}
+
+menuDef
+{
+	name			"admin"
+	fullscreen		1
+	rect			0 0 640 480
+	focuscolor		1 1 1 1
+	style			1
+	blurWorld		7
+	onEsc
+	{
+		close admin;
+	}
+
+	itemDef
+	{
+		style			WINDOW_STYLE_SHADER
+		rect			-107 0 854 480 0 0
+		background		"nightvision_overlay_goggles"
+		forecolor		1 1 1 1
+		visible			1
+		decoration
+	}
+
+	itemDef
+	{
+		rect			230 45 180 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		textalign		ITEM_ALIGN_CENTER
+		textaligny		16
+		textscale		0.35
+		forecolor		0.95 0.72 0.21 1
+		textstyle		ITEM_TEXTSTYLE_SHADOWEDMORE
+		textfont		UI_FONT_OBJECTIVE
+		text			"ADMIN CONTROL PANEL"
+		visible			1
+	}
+
+	// --- COLUMN 1: VIP & PRESTIGE --- (x = 20)
+	ADMIN_HEADING(20, 80, "VIP")
+	ADMIN_BTN(20, 100, "Add to VIP 1", av_vip1)
+	ADMIN_BTN(20, 120, "Add to VIP 2", av_vip2)
+	ADMIN_BTN(20, 140, "Add to VIP 3", av_vip3)
+	ADMIN_BTN(20, 160, "Remove from VIP", av_vip0)
+
+	ADMIN_HEADING(20, 190, "Prestige")
+	ADMIN_BTN(20, 210, "Set Prestige 0", av_pr0)
+	ADMIN_BTN(20, 230, "Set Prestige 10", av_pr10)
+	ADMIN_BTN(20, 250, "Set Prestige 20", av_pr20)
+	ADMIN_BTN(20, 270, "Set Prestige 30", av_pr30)
+
+	// --- COLUMN 2: XP & ADMINSHIP --- (x = 180)
+	ADMIN_HEADING(180, 80, "XP")
+	ADMIN_BTN(180, 100, "Give 100 XP", av_xp100)
+	ADMIN_BTN(180, 120, "Give 1000 XP", av_xp1000)
+	ADMIN_BTN(180, 140, "Give 10000 XP", av_xp10000)
+	ADMIN_BTN(180, 160, "Take 100 XP", av_txp100)
+	ADMIN_BTN(180, 180, "Take 1000 XP", av_txp1000)
+	ADMIN_BTN(180, 200, "Take 10000 XP", av_txp10000)
+
+	ADMIN_HEADING(180, 230, "Adminship")
+	ADMIN_BTN(180, 250, "Add to Member", member)
+	ADMIN_BTN(180, 270, "Add to Senior", senior)
+	ADMIN_BTN(180, 290, "Add to Leader", leader)
+
+	// --- COLUMN 3: RR & MALICIOUS --- (x = 340)
+	ADMIN_HEADING(340, 80, "RR")
+	ADMIN_BTN(340, 100, "Give 100 rr", av_rr100)
+	ADMIN_BTN(340, 120, "Give 1000 rr", av_rr1000)
+	ADMIN_BTN(340, 140, "Give 10000 rr", av_rr10000)
+	ADMIN_BTN(340, 160, "Take 100 rr", av_trr100)
+	ADMIN_BTN(340, 180, "Take 1000 rr", av_trr1000)
+	ADMIN_BTN(340, 200, "Take 10000 rr", av_trr10000)
+
+	ADMIN_HEADING(340, 230, "Malicious")
+	ADMIN_BTN(340, 250, "Respawn", av_respawn)
+	ADMIN_BTN(340, 270, "Kill", akill)
+	ADMIN_BTN(340, 290, "WTF", av_wtf)
+	ADMIN_BTN(340, 310, "TP to You", atpto)
+
+	itemDef
+	{
+		name				"pitem_0"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 78 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player0"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_0" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_0" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player0; }
+		visible 			when(dvarString("ui_player0") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_1"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 90 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player1"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_1" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_1" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player1; }
+		visible 			when(dvarString("ui_player1") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_2"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 102 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player2"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_2" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_2" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player2; }
+		visible 			when(dvarString("ui_player2") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_3"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 114 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player3"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_3" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_3" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player3; }
+		visible 			when(dvarString("ui_player3") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_4"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 126 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player4"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_4" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_4" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player4; }
+		visible 			when(dvarString("ui_player4") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_5"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 138 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player5"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_5" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_5" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player5; }
+		visible 			when(dvarString("ui_player5") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_6"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 150 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player6"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_6" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_6" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player6; }
+		visible 			when(dvarString("ui_player6") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_7"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 162 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player7"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_7" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_7" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player7; }
+		visible 			when(dvarString("ui_player7") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_8"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 174 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player8"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_8" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_8" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player8; }
+		visible 			when(dvarString("ui_player8") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_9"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 186 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player9"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_9" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_9" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player9; }
+		visible 			when(dvarString("ui_player9") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_10"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 198 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player10"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_10" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_10" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player10; }
+		visible 			when(dvarString("ui_player10") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_11"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 210 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player11"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_11" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_11" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player11; }
+		visible 			when(dvarString("ui_player11") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_12"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 222 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player12"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_12" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_12" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player12; }
+		visible 			when(dvarString("ui_player12") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_13"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 234 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player13"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_13" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_13" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player13; }
+		visible 			when(dvarString("ui_player13") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_14"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 246 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player14"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_14" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_14" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player14; }
+		visible 			when(dvarString("ui_player14") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_15"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 258 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player15"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_15" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_15" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player15; }
+		visible 			when(dvarString("ui_player15") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_16"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 270 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player16"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_16" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_16" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player16; }
+		visible 			when(dvarString("ui_player16") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_17"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 282 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player17"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_17" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_17" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player17; }
+		visible 			when(dvarString("ui_player17") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_18"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 294 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player18"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_18" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_18" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player18; }
+		visible 			when(dvarString("ui_player18") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_19"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 306 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player19"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_19" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_19" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player19; }
+		visible 			when(dvarString("ui_player19") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_20"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 318 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player20"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_20" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_20" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player20; }
+		visible 			when(dvarString("ui_player20") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_21"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 330 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player21"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_21" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_21" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player21; }
+		visible 			when(dvarString("ui_player21") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_22"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 342 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player22"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_22" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_22" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player22; }
+		visible 			when(dvarString("ui_player22") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_23"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 354 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player23"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_23" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_23" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player23; }
+		visible 			when(dvarString("ui_player23") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_24"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 366 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player24"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_24" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_24" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player24; }
+		visible 			when(dvarString("ui_player24") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_25"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 378 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player25"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_25" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_25" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player25; }
+		visible 			when(dvarString("ui_player25") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_26"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 390 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player26"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_26" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_26" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player26; }
+		visible 			when(dvarString("ui_player26") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_27"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 402 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player27"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_27" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_27" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player27; }
+		visible 			when(dvarString("ui_player27") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_28"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 414 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player28"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_28" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_28" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player28; }
+		visible 			when(dvarString("ui_player28") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_29"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 426 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player29"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_29" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_29" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player29; }
+		visible 			when(dvarString("ui_player29") != "")
+	}
+
+	itemDef
+	{
+		name				"pitem_30"
+		type 				ITEM_TYPE_BUTTON
+		style				WINDOW_STYLE_FILLED
+		rect				500 438 130 11 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+		backcolor			0.15 0.15 0.15 0.7
+		border				1
+		bordercolor			0.3 0.3 0.3 0.5
+		exp					text(dvarString("ui_player30"))
+		textfont			UI_FONT_NORMAL
+		textscale			0.18
+		textalign			ITEM_ALIGN_CENTER
+		textaligny			9
+		forecolor			0.93 0.93 0.93 0.85
+		mouseEnter 			{ play "mouse_over"; setitemcolor "pitem_30" backcolor 0.4 0.4 0.4 0.9; }
+		mouseExit 			{ setitemcolor "pitem_30" backcolor 0.15 0.15 0.15 0.7; }
+		action 				{ play "mouse_click"; scriptMenuResponse player30; }
+		visible 			when(dvarString("ui_player30") != "")
+	}
+
+}

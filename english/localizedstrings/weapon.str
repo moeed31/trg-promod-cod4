@@ -1,0 +1,20 @@
+VERSION             "1"
+CONFIG              "C:\trees\cod3\cod3\bin\StringEd.cfg"
+FILENOTES    
+
+REFERENCE           DESERT_CAMO
+LANG_ENGLISH        "Cyber Pulse"
+
+REFERENCE           WOODLAND_CAMO
+LANG_ENGLISH        "Liquid Flow"
+
+REFERENCE           DIGITAL_CAMO
+LANG_ENGLISH        "Chroma Ripple"
+
+REFERENCE           RED_TIGER_CAMO
+LANG_ENGLISH        "Neon Grid"
+
+REFERENCE           BLUE_TIGER_CAMO
+LANG_ENGLISH        "Velocity"
+
+ENDMARKER

@@ -1,0 +1,1348 @@
+#include "ui/menudef.h"
+
+#define CHOICE_SIZE_X			150
+#define CHOICE_SIZE_Y			22
+#define CHOICE_X_START			0
+#define CHOICE_Y_START			210
+
+#include "ui_mp/menustyle.inc"
+
+// --- MODERN STYLE OVERRIDES ---
+#undef CHOICE_Y_SPACING
+#define CHOICE_Y_SPACING		(CHOICE_SIZE_Y+7)
+
+#undef HIGHLIGHT_SHADER
+#define HIGHLIGHT_SHADER		"menu_button_backg"
+
+#undef HIGHLIGHT_COLOR
+#define HIGHLIGHT_COLOR			0.445 0.457 0.527 1
+
+#undef CHOICE_BUTTON_BG
+#define CHOICE_BUTTON_BG( itemIndex, visArg ) \
+    itemDef { \
+        style           WINDOW_STYLE_SHADER \
+        rect            CHOICE_RECT( itemIndex ) \
+        background      "menu_button_backg" \
+        forecolor       0.445 0.457 0.527 0.4 \
+        visible         visArg \
+        decoration }
+// ------------------------------
+
+
+{
+	menuDef
+	{
+		name			"leaderboard"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		7
+		onOpen
+		{
+			focusFirst;
+		}
+		onEsc
+		{
+			close self;
+			open class;
+		}
+
+		// 1. Deep Black Immersive Background
+		
+
+
+		// 2. Subtle esports background glow
+		
+
+		// 4. Server Leaderboard Header
+		
+        // 1. Deep Black Immersive Background
+        itemDef
+        {
+            style                     WINDOW_STYLE_FILLED
+            rect                      0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+            backColor                 0 0 0 0.75
+            visible                   1
+            decoration                
+        }
+        
+        // 2. Animated Fog Background
+        itemDef
+        {
+            rect                      -107 0 1708 480 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.7
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "animbg_fogscroll"
+            textScale                 0.55
+            exp                       rect X ( ( ( ( - 107 ) - ( ( float( milliseconds( ) % 60000 ) / 60000 ) * ( 854 ) ) ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -107 0 1708 480 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.7
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "animbg_fogscrollthin"
+            textScale                 0.55
+            exp                       rect X ( ( ( ( - 961 ) + ( ( float( milliseconds( ) % 100000 ) / 100000 ) * ( 854 ) ) ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        
+        // 3. Dark Overlay
+        itemDef
+        {
+            rect                      0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+            style                     WINDOW_STYLE_FILLED
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0.28
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+// Title
+        itemDef
+        {
+            rect                      30 18 360 30 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      30 45 360 6 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            exp                       material ( ( ( "menu_button_backg" ) ) );
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      30 18 360 30 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 0.95294 0.72156 0.21176 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -10
+            textScale                 0.51
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "SERVER LEADERBOARD"
+            visible                   1
+        }
+		
+		
+
+		// 5. Main Card Container (Table Box)
+
+		// 6. Card Top Accent Strip
+
+						
+		
+		// --- TABS ---
+		itemDef {
+			name			"tab_global"
+			type			ITEM_TYPE_BUTTON
+			style			WINDOW_STYLE_FILLED
+			rect			20 60 150 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"white"
+			backcolor		0 0.3 0.7 0.5
+			border			1
+			bordercolor		0.3 0.3 0.3 0.5
+			forecolor		0.7 0.7 0.7 1
+			text			"GLOBAL RANKINGS"
+			textfont		UI_FONT_OBJECTIVE
+			textscale		0.25
+			textalign		ITEM_ALIGN_CENTER
+			textaligny		14
+			visible			1
+			mouseEnter		{ play "mouse_over"; setitemcolor "tab_global" bordercolor 0.5 0.7 1 0.8; }
+			mouseExit		{ setitemcolor "tab_global" bordercolor 0.3 0.3 0.3 0.5; }
+			action			{ play "mouse_click"; scriptMenuResponse "lb_tab_global"; }
+		}
+
+		itemDef {
+			name			"tab_map"
+			type			ITEM_TYPE_BUTTON
+			style			WINDOW_STYLE_FILLED
+			rect			175 60 150 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"white"
+			backcolor		0.1 0.1 0.12 0.8
+			border			1
+			bordercolor		0.3 0.3 0.3 0.5
+			forecolor		0.7 0.7 0.7 1
+			text			"CURRENT MAP RANKINGS"
+			textfont		UI_FONT_OBJECTIVE
+			textscale		0.25
+			textalign		ITEM_ALIGN_CENTER
+			textaligny		14
+			visible			1
+			mouseEnter		{ play "mouse_over"; setitemcolor "tab_map" bordercolor 0.5 0.7 1 0.8; }
+			mouseExit		{ setitemcolor "tab_map" bordercolor 0.3 0.3 0.3 0.5; }
+			action			{ play "mouse_click"; scriptMenuResponse "lb_tab_map"; }
+		}
+
+		// 7. Table Headers (Redesigned)
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect 0 85 640 24 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"white"
+			forecolor		0 0.3 0.7 0.75 // Electric Blue
+			visible			1
+			decoration
+		}
+		itemDef {
+			text			"RANK"
+			rect			25 106 30 18 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.3
+			textalign		ITEM_ALIGN_CENTER
+			forecolor 		1 1 1 1
+			visible			1
+			decoration
+		}
+		itemDef {
+			text			"TR RANK"
+			rect			65 106 90 18 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.3
+			textalign		ITEM_ALIGN_LEFT
+			forecolor 		1 1 1 1
+			visible			1
+			decoration
+		}
+		itemDef {
+			text			"PLAYER NAME"
+			rect			155 106 140 18 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.3
+			textalign		ITEM_ALIGN_LEFT
+			forecolor 		1 1 1 1
+			visible			1
+			decoration
+		}
+		itemDef {
+			text			"XP"
+			rect			310 106 50 18 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.3
+			textalign		ITEM_ALIGN_CENTER
+			forecolor 		1 1 1 1
+			visible			1
+			decoration
+		}
+		itemDef {
+			text			"KILLS"
+			rect			375 106 45 18 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.3
+			textalign		ITEM_ALIGN_CENTER
+			forecolor 		1 1 1 1
+			visible			1
+			decoration
+		}
+		itemDef {
+			text			"DEATHS"
+			rect			440 106 45 18 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.3
+			textalign		ITEM_ALIGN_CENTER
+			forecolor 		1 1 1 1
+			visible			1
+			decoration
+		}
+		itemDef {
+			text			"K/D"
+			rect			505 106 45 18 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.3
+			textalign		ITEM_ALIGN_CENTER
+			forecolor 		1 1 1 1
+			visible			1
+			decoration
+		}
+		itemDef {
+			text			"SKILL"
+			rect 570 106 39 18 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.3
+			textalign		ITEM_ALIGN_CENTER
+			forecolor 		1 1 1 1
+			visible			1
+			decoration
+		}
+		
+		// 8. 10 Dynamic Table Rows
+
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			0 116 640 22 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"white"
+			forecolor		0.8 0.6 0.1 0.35
+			visible			when( dvarString( "ui_lb_name_0" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_rank_0" ) )
+			rect			25 132 30 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_0" ) != "" )
+			decoration }
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			45 119 14 14 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material( dvarString( "ui_lb_tr_icon_0" ) )
+			visible			when( dvarString( "ui_lb_name_0" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_name_0" ) )
+			rect			65 132 90 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_0" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_name_0" ) )
+			rect			155 132 140 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		1 1 1 1
+			visible			when( dvarString( "ui_lb_name_0" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_xp_0" ) )
+			rect			310 132 50 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_0" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kills_0" ) )
+			rect			375 132 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_0" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_deaths_0" ) )
+			rect			440 132 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_0" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kd_0" ) )
+			rect			505 132 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		1 0.7 0.1 1
+			visible			when( dvarString( "ui_lb_name_0" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_skill_0" ) )
+			rect			570 132 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.7 0.7 0.7 0.95
+			visible			when( dvarString( "ui_lb_name_0" ) != "" )
+			decoration }
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			0 138 640 22 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"white"
+			forecolor		0.7 0.7 0.7 0.25
+			visible			when( dvarString( "ui_lb_name_1" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_rank_1" ) )
+			rect			25 154 30 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_1" ) != "" )
+			decoration }
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			45 141 14 14 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material( dvarString( "ui_lb_tr_icon_1" ) )
+			visible			when( dvarString( "ui_lb_name_1" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_name_1" ) )
+			rect			65 154 90 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_1" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_name_1" ) )
+			rect			155 154 140 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		1 1 1 1
+			visible			when( dvarString( "ui_lb_name_1" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_xp_1" ) )
+			rect			310 154 50 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_1" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kills_1" ) )
+			rect			375 154 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_1" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_deaths_1" ) )
+			rect			440 154 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_1" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kd_1" ) )
+			rect			505 154 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		1 0.7 0.1 1
+			visible			when( dvarString( "ui_lb_name_1" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_skill_1" ) )
+			rect			570 154 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.7 0.7 0.7 0.95
+			visible			when( dvarString( "ui_lb_name_1" ) != "" )
+			decoration }
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			0 160 640 22 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"white"
+			forecolor		0.6 0.4 0.2 0.35
+			visible			when( dvarString( "ui_lb_name_2" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_rank_2" ) )
+			rect			25 176 30 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_2" ) != "" )
+			decoration }
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			45 163 14 14 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material( dvarString( "ui_lb_tr_icon_2" ) )
+			visible			when( dvarString( "ui_lb_name_2" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_name_2" ) )
+			rect			65 176 90 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_2" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_name_2" ) )
+			rect			155 176 140 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		1 1 1 1
+			visible			when( dvarString( "ui_lb_name_2" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_xp_2" ) )
+			rect			310 176 50 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_2" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kills_2" ) )
+			rect			375 176 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_2" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_deaths_2" ) )
+			rect			440 176 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_2" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kd_2" ) )
+			rect			505 176 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		1 0.7 0.1 1
+			visible			when( dvarString( "ui_lb_name_2" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_skill_2" ) )
+			rect			570 176 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.7 0.7 0.7 0.95
+			visible			when( dvarString( "ui_lb_name_2" ) != "" )
+			decoration }
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			0 182 640 22 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"white"
+			forecolor		0.1 0.1 0.12 0.4
+			visible			when( dvarString( "ui_lb_name_3" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_rank_3" ) )
+			rect			25 198 30 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_3" ) != "" )
+			decoration }
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			45 185 14 14 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material( dvarString( "ui_lb_tr_icon_3" ) )
+			visible			when( dvarString( "ui_lb_name_3" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_name_3" ) )
+			rect			65 198 90 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_3" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_name_3" ) )
+			rect			155 198 140 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		1 1 1 1
+			visible			when( dvarString( "ui_lb_name_3" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_xp_3" ) )
+			rect			310 198 50 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_3" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kills_3" ) )
+			rect			375 198 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_3" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_deaths_3" ) )
+			rect			440 198 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_3" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kd_3" ) )
+			rect			505 198 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		1 0.7 0.1 1
+			visible			when( dvarString( "ui_lb_name_3" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_skill_3" ) )
+			rect			570 198 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.7 0.7 0.7 0.95
+			visible			when( dvarString( "ui_lb_name_3" ) != "" )
+			decoration }
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			0 204 640 22 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"white"
+			forecolor		0.15 0.15 0.18 0.3
+			visible			when( dvarString( "ui_lb_name_4" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_rank_4" ) )
+			rect			25 220 30 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_4" ) != "" )
+			decoration }
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			45 207 14 14 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material( dvarString( "ui_lb_tr_icon_4" ) )
+			visible			when( dvarString( "ui_lb_name_4" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_name_4" ) )
+			rect			65 220 90 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_4" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_name_4" ) )
+			rect			155 220 140 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		1 1 1 1
+			visible			when( dvarString( "ui_lb_name_4" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_xp_4" ) )
+			rect			310 220 50 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_4" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kills_4" ) )
+			rect			375 220 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_4" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_deaths_4" ) )
+			rect			440 220 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_4" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kd_4" ) )
+			rect			505 220 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		1 0.7 0.1 1
+			visible			when( dvarString( "ui_lb_name_4" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_skill_4" ) )
+			rect			570 220 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.7 0.7 0.7 0.95
+			visible			when( dvarString( "ui_lb_name_4" ) != "" )
+			decoration }
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			0 226 640 22 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"white"
+			forecolor		0.1 0.1 0.12 0.4
+			visible			when( dvarString( "ui_lb_name_5" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_rank_5" ) )
+			rect			25 242 30 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_5" ) != "" )
+			decoration }
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			45 229 14 14 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material( dvarString( "ui_lb_tr_icon_5" ) )
+			visible			when( dvarString( "ui_lb_name_5" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_name_5" ) )
+			rect			65 242 90 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_5" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_name_5" ) )
+			rect			155 242 140 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		1 1 1 1
+			visible			when( dvarString( "ui_lb_name_5" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_xp_5" ) )
+			rect			310 242 50 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_5" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kills_5" ) )
+			rect			375 242 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_5" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_deaths_5" ) )
+			rect			440 242 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_5" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kd_5" ) )
+			rect			505 242 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		1 0.7 0.1 1
+			visible			when( dvarString( "ui_lb_name_5" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_skill_5" ) )
+			rect			570 242 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.7 0.7 0.7 0.95
+			visible			when( dvarString( "ui_lb_name_5" ) != "" )
+			decoration }
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			0 248 640 22 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"white"
+			forecolor		0.15 0.15 0.18 0.3
+			visible			when( dvarString( "ui_lb_name_6" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_rank_6" ) )
+			rect			25 264 30 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_6" ) != "" )
+			decoration }
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			45 251 14 14 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material( dvarString( "ui_lb_tr_icon_6" ) )
+			visible			when( dvarString( "ui_lb_name_6" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_name_6" ) )
+			rect			65 264 90 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_6" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_name_6" ) )
+			rect			155 264 140 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		1 1 1 1
+			visible			when( dvarString( "ui_lb_name_6" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_xp_6" ) )
+			rect			310 264 50 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_6" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kills_6" ) )
+			rect			375 264 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_6" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_deaths_6" ) )
+			rect			440 264 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_6" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kd_6" ) )
+			rect			505 264 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		1 0.7 0.1 1
+			visible			when( dvarString( "ui_lb_name_6" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_skill_6" ) )
+			rect			570 264 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.7 0.7 0.7 0.95
+			visible			when( dvarString( "ui_lb_name_6" ) != "" )
+			decoration }
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			0 270 640 22 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"white"
+			forecolor		0.1 0.1 0.12 0.4
+			visible			when( dvarString( "ui_lb_name_7" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_rank_7" ) )
+			rect			25 286 30 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_7" ) != "" )
+			decoration }
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			45 273 14 14 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material( dvarString( "ui_lb_tr_icon_7" ) )
+			visible			when( dvarString( "ui_lb_name_7" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_name_7" ) )
+			rect			65 286 90 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_7" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_name_7" ) )
+			rect			155 286 140 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		1 1 1 1
+			visible			when( dvarString( "ui_lb_name_7" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_xp_7" ) )
+			rect			310 286 50 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_7" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kills_7" ) )
+			rect			375 286 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_7" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_deaths_7" ) )
+			rect			440 286 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_7" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kd_7" ) )
+			rect			505 286 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		1 0.7 0.1 1
+			visible			when( dvarString( "ui_lb_name_7" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_skill_7" ) )
+			rect			570 286 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.7 0.7 0.7 0.95
+			visible			when( dvarString( "ui_lb_name_7" ) != "" )
+			decoration }
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			0 292 640 22 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"white"
+			forecolor		0.15 0.15 0.18 0.3
+			visible			when( dvarString( "ui_lb_name_8" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_rank_8" ) )
+			rect			25 308 30 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_8" ) != "" )
+			decoration }
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			45 295 14 14 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material( dvarString( "ui_lb_tr_icon_8" ) )
+			visible			when( dvarString( "ui_lb_name_8" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_name_8" ) )
+			rect			65 308 90 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_8" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_name_8" ) )
+			rect			155 308 140 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		1 1 1 1
+			visible			when( dvarString( "ui_lb_name_8" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_xp_8" ) )
+			rect			310 308 50 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_8" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kills_8" ) )
+			rect			375 308 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_8" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_deaths_8" ) )
+			rect			440 308 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_8" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kd_8" ) )
+			rect			505 308 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		1 0.7 0.1 1
+			visible			when( dvarString( "ui_lb_name_8" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_skill_8" ) )
+			rect			570 308 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.7 0.7 0.7 0.95
+			visible			when( dvarString( "ui_lb_name_8" ) != "" )
+			decoration }
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			0 314 640 22 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"white"
+			forecolor		0.1 0.1 0.12 0.4
+			visible			when( dvarString( "ui_lb_name_9" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_rank_9" ) )
+			rect			25 330 30 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_9" ) != "" )
+			decoration }
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			45 317 14 14 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material( dvarString( "ui_lb_tr_icon_9" ) )
+			visible			when( dvarString( "ui_lb_name_9" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_name_9" ) )
+			rect			65 330 90 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_9" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_name_9" ) )
+			rect			155 330 140 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		1 1 1 1
+			visible			when( dvarString( "ui_lb_name_9" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_xp_9" ) )
+			rect			310 330 50 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_9" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kills_9" ) )
+			rect			375 330 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_9" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_deaths_9" ) )
+			rect			440 330 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_9" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kd_9" ) )
+			rect			505 330 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		1 0.7 0.1 1
+			visible			when( dvarString( "ui_lb_name_9" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_skill_9" ) )
+			rect			570 330 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.7 0.7 0.7 0.95
+			visible			when( dvarString( "ui_lb_name_9" ) != "" )
+			decoration }
+		// Divider above local player stats
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect 0 344 640 2 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"white"
+			forecolor		0 0.3 0.7 0.5 // Electric blue thin divider
+			visible			1
+			decoration
+		}
+
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			0 340 640 22 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"white"
+			forecolor		0 0.3 0.7 0.25
+			visible			when( dvarString( "ui_lb_name_10" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_rank_10" ) )
+			rect			25 356 30 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_10" ) != "" )
+			decoration }
+		itemDef {
+			style			WINDOW_STYLE_SHADER
+			rect			45 343 14 14 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material( dvarString( "ui_lb_tr_icon_10" ) )
+			visible			when( dvarString( "ui_lb_name_10" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_name_10" ) )
+			rect			65 356 90 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_10" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_name_10" ) )
+			rect			155 356 140 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			forecolor		1 1 1 1
+			visible			when( dvarString( "ui_lb_name_10" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_tr_xp_10" ) )
+			rect			310 356 50 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_10" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kills_10" ) )
+			rect			375 356 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_10" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_deaths_10" ) )
+			rect			440 356 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.93 0.93 0.93 0.95
+			visible			when( dvarString( "ui_lb_name_10" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_kd_10" ) )
+			rect			505 356 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_OBJECTIVE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		1 0.7 0.1 1
+			visible			when( dvarString( "ui_lb_name_10" ) != "" )
+			decoration }
+		itemDef {
+			exp				text( dvarString( "ui_lb_skill_10" ) )
+			rect			570 356 45 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textfont		UI_FONT_NORMAL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			forecolor		0.7 0.7 0.7 0.95
+			visible			when( dvarString( "ui_lb_name_10" ) != "" )
+			decoration }
+	}
+}

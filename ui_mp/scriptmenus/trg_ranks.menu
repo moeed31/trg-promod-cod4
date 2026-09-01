@@ -1,0 +1,427 @@
+#include "ui/menudef.h"
+
+#define CHOICE_SIZE_X			150
+#define CHOICE_SIZE_Y			22
+
+#include "ui_mp/menustyle.inc"
+#include "ui/choices_setup_common.menu"
+
+#define RANK_ROW( colIdx, rowIdx, iconShader, rankName, reqRR ) \
+	/* Rank Icon */ \
+	itemDef \
+	{ \
+		style			WINDOW_STYLE_SHADER \
+		rect			(45 + colIdx * 123) (92 + rowIdx * 54) 22 22 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		background		iconShader \
+		visible			1 \
+		decoration \
+	} \
+	/* Rank Name */ \
+	itemDef \
+	{ \
+		rect			(72 + colIdx * 123) (102 + rowIdx * 54) 100 12 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		forecolor		0.93 0.93 0.93 0.95 \
+		textalign		ITEM_ALIGN_LEFT \
+		textscale		0.20 \
+		textfont		UI_FONT_NORMAL \
+		exp text		(rankName) \
+		visible			1 \
+		decoration \
+	} \
+	/* Required RR */ \
+	itemDef \
+	{ \
+		rect			(72 + colIdx * 123) (112 + rowIdx * 54) 100 12 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		forecolor		0.3 0.3 0.3 0.5 \
+		textalign		ITEM_ALIGN_LEFT \
+		textscale		0.17 \
+		textfont		UI_FONT_NORMAL \
+		exp text		(reqRR + " RR") \
+		visible			1 \
+		decoration \
+	}
+
+{
+	menuDef 
+	{
+		name 			"trg_ranks"
+		rect			0 0 640 480 
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		7
+		visible			1		
+		onOpen
+		{
+			setLocalVarString ui_hintstring "^8>> ^7";
+		}
+		onEsc
+		{
+			close self;
+			open player_menu;
+		}
+
+		// 1. Deep Black Immersive Background
+		
+
+
+		// 2. Subtle esports background glow
+		
+
+		// 4. Header title
+		
+        // 1. Deep Black Immersive Background
+        itemDef
+        {
+            style                     WINDOW_STYLE_FILLED
+            rect                      0 0 530 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+            backColor                 0 0 0 0.75
+            visible                   1
+            decoration                
+        }
+        
+        // 2. Animated Fog Background
+        itemDef
+        {
+            rect                      -107 0 1708 480 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.7
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "animbg_fogscroll"
+            textScale                 0.55
+            exp                       rect X ( ( ( ( - 107 ) - ( ( float( milliseconds( ) % 60000 ) / 60000 ) * ( 854 ) ) ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -107 0 1708 480 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.7
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "animbg_fogscrollthin"
+            textScale                 0.55
+            exp                       rect X ( ( ( ( - 961 ) + ( ( float( milliseconds( ) % 100000 ) / 100000 ) * ( 854 ) ) ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        
+        // 3. Dark Overlay
+        itemDef
+        {
+            rect 0 0 651 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+            style                     WINDOW_STYLE_FILLED
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0.28
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+// Left Panel Edge Glow
+        itemDef
+        {
+            rect 170 0 1 480 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.8
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            exp                       material ( ( ( "button_highlight_end" ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        itemDef
+        {
+            rect 170 0 8 480 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.75
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            exp                       material ( ( ( "gradient" ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+
+        // Title
+        itemDef
+        {
+            rect                      30 18 360 30 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      30 45 360 6 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            exp                       material ( ( ( "menu_button_backg" ) ) );
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      30 18 360 30 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 0.95294 0.72156 0.21176 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -10
+            textScale                 0.51
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "TRG RANKING SYSTEM"
+            visible                   1
+        }
+
+		 // (Ranks Showcase Container Panel Card)
+
+		// Ranks Grid Section Header
+		itemDef
+		{
+			rect			45 60 300 0 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		1 1 1 1
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			exp text		("COMPETITIVE SKILL BRACKETS")
+			textfont		UI_FONT_NORMAL
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			textaligny		14
+			visible			1
+			decoration
+		}
+		
+		// Ranks Grid
+		RANK_ROW( 0, 0, "val_iron_1", "Recruit", "0" )
+		RANK_ROW( 0, 1, "val_iron_2", "Outcast", "500" )
+		RANK_ROW( 0, 2, "val_iron_3", "Rogue I", "1000" )
+		RANK_ROW( 0, 3, "val_bronze_1", "Rogue II", "2000" )
+		RANK_ROW( 0, 4, "val_bronze_2", "Rogue III", "3500" )
+		RANK_ROW( 0, 5, "val_bronze_3", "Vanguard I", "5000" )
+
+		RANK_ROW( 1, 0, "val_silver_1", "Vanguard II", "7500" )
+		RANK_ROW( 1, 1, "val_silver_2", "Vanguard III", "10000" )
+		RANK_ROW( 1, 2, "val_silver_3", "Apex I", "13000" )
+		RANK_ROW( 1, 3, "val_gold_1", "Apex II", "17000" )
+		RANK_ROW( 1, 4, "val_gold_2", "Apex III", "22000" )
+		RANK_ROW( 1, 5, "val_gold_3", "Elite I", "28000" )
+
+		RANK_ROW( 2, 0, "val_plat_1", "Elite II", "35000" )
+		RANK_ROW( 2, 1, "val_plat_2", "Elite III", "45000" )
+		RANK_ROW( 2, 2, "val_plat_3", "TRG Champion", "57000" )
+		RANK_ROW( 2, 3, "val_diamond", "TRG Legend", "75000" )
+		RANK_ROW( 2, 4, "val_radiant", "The Ripper Elite", "100000" )
+
+		// BACK / CLOSE BUTTON
+		itemDef
+		{
+			rect			70 440 220 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+			style			WINDOW_STYLE_SHADER
+			borderSize		1
+			foreColor		0.445 0.457 0.527 0.4
+			backColor		0 0 0 0
+			borderColor		0 0 0 0
+			outlineColor	0 0 0 0
+			background		"menu_button_backg"
+			textScale		0.55
+			visible			1
+			decoration		
+		}
+		itemDef
+		{
+			name			"back_btn_glow"
+			rect			70 440 220 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+			style			WINDOW_STYLE_SHADER
+			borderSize		1
+			foreColor		0 0 0 0
+			backColor		0 0 0 0
+			borderColor		0 0 0 0
+			outlineColor	0 0 0 0
+			background		"menu_button_backg"
+			textScale		0.55
+			visible			1
+			decoration		
+		}
+		itemDef
+		{
+			name			"back_btn"
+			rect			70 440 220 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+			type			ITEM_TYPE_BUTTON
+			borderSize		1
+			foreColor		1 1 1 1
+			backColor		0 0 0 0
+			borderColor		0 0 0 0
+			outlineColor	0 0 0 0
+			textFont		UI_FONT_OBJECTIVE
+			textAlign		ITEM_ALIGN_MIDDLE_RIGHT
+			textAlignX		-25
+			textScale		0.45
+			textStyle		ITEM_TEXTSTYLE_SHADOWED
+			text			"BACK"
+			visible			1
+			action			{ play "mouse_click"; close self; open player_menu; }
+			mouseEnter		{ play "mouse_over"; setitemcolor "back_btn_glow" foreColor 1 1 1 1; }
+			mouseExit		{ setitemcolor "back_btn_glow" foreColor 0 0 0 0; }
+		}
+
+		// 6. Right Side - Top Box (How It Works)
+
+		itemDef
+        {
+            rect -99 10 98 30 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 0.95294 0.72156 0.21176 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -10
+            textScale                 0.51
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "INFO"
+            visible                   1
+        }
+        itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect 540 45 105 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"menu_button_backg"
+			forecolor		1 1 1 0.4
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			rect 510 45 112 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textalign		ITEM_ALIGN_LEFT
+			textaligny		12
+			textscale		0.18
+			forecolor 0.93 0.93 0.93 1
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textfont		UI_FONT_NORMAL
+			text "         PROGRESSION RULES:"
+			visible			1
+			decoration
+		}
+
+		#define RULES_ROW( textStr, rY ) \
+		itemDef { \
+			rect			510 rY 171 14 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+			forecolor		0.93 0.93 0.93 0.9 \
+			textstyle		ITEM_TEXTSTYLE_SHADOWED \
+			exp text		( textStr ) \
+			textfont		UI_FONT_NORMAL \
+			textscale		0.18 \
+			textalign		ITEM_ALIGN_LEFT \
+			visible			1 \
+			decoration }
+
+		RULES_ROW( "- Base: Kill/Plant +5 | Defuse +50", 84 )
+		RULES_ROW( "- K/D >= 1.0: +10 per 0.1 (Max +500)", 98 )
+		RULES_ROW( "- K/D < 1.0: -100 to -10 penalty", 112 )
+		RULES_ROW( "- Match MVP: +150 RR", 126 )
+		RULES_ROW( "- Most Kills: +50 RR", 140 )
+		RULES_ROW( "- Most Plants: +50 RR", 154 )
+		RULES_ROW( "- Most Defuses: +100 RR", 168 )
+		RULES_ROW( "- Most Deaths: -50 RR", 182 )
+		RULES_ROW( "  (Can trigger demotions)", 196 )
+
+		// 7. Right Side - Bottom Box (Player's Current Rank Card)
+
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect 540 250 100 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"menu_button_backg"
+			forecolor		1 1 1 0.4
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			rect 510 250 111 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textalign		ITEM_ALIGN_LEFT
+			textaligny		12
+			textscale		0.18
+			forecolor 0.93 0.93 0.93 1
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textfont		UI_FONT_NORMAL
+			text "           YOUR PLAYER RANK:"
+			visible			1
+			decoration
+		}
+
+		// Current Rank Icon
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect 540 273 60 60 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			exp				material( dvarString("ui_ls_rank_icon") )
+			visible			1
+			decoration
+		}
+		// Current Rank Name
+		itemDef
+		{
+			rect 510 354 157 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textalign		ITEM_ALIGN_CENTER
+			textscale		0.32
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			forecolor		0.93 0.93 0.93 1
+			exp text		( dvarString("ui_ls_rank_name") )
+			visible			1
+			decoration
+		}
+		// Current RR Value
+		itemDef
+		{
+			rect 510 401 148 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textalign		ITEM_ALIGN_CENTER
+			textscale		0.26
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			forecolor 0.882 0.667 0.196 1
+			exp text		( dvarString("ui_ls_rr") + " RR" )
+			visible			1
+			decoration
+		}
+
+		// Subtle Semtex logo watermark
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect -111 -60 101 50 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_BOTTOM
+			background		"semtex_logo"
+			forecolor		1 1 1 0.2
+			visible			1
+			decoration
+		}
+	}
+}

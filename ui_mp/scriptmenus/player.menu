@@ -1,0 +1,457 @@
+#include "ui/menudef.h"
+
+
+
+#define PERF_BUTTON_VIS( itemNum, xVal, yVal, textArg, responseArg, onFocusArg, unselCond, selCond ) \
+	/* Unselected */ \
+	itemDef \
+	{ \
+		name				"perf_btn_" #itemNum \
+		type 				ITEM_TYPE_BUTTON \
+		style				WINDOW_STYLE_FILLED \
+		rect				xVal yVal 110 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		forecolor			0.93 0.93 0.93 1.0 \
+		border				1 \
+		bordercolor			0 0.8 1 0.6 \
+		backcolor			0.1 0.1 0.1 0.8 \
+		visible				when( unselCond ) \
+		exp					text(textArg) \
+		textfont			UI_FONT_NORMAL \
+		textscale			0.23 \
+		textalign			ITEM_ALIGN_CENTER \
+		textaligny			15 \
+		mouseEnter 			{ play "mouse_over"; \
+		setitemcolor "perf_btn_" #itemNum backcolor 0 0.8 1 0.45; \
+		setLocalVarString ui_hintstring "^8>> ^7"onFocusArg \
+		} \
+		mouseExit 			{ \
+		setitemcolor "perf_btn_" #itemNum backcolor 0.1 0.1 0.1 0.8; \
+		setLocalVarString ui_hintstring "^8>> ^7" \
+		} \
+		action 				{ play "mouse_click"; \
+		scriptMenuResponse responseArg;  \
+		}  \
+	} \
+	/* Selected */ \
+	itemDef \
+	{ \
+		name				"perf_btn_sel_" #itemNum \
+		type 				ITEM_TYPE_BUTTON \
+		style				WINDOW_STYLE_FILLED \
+		rect				xVal yVal 110 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		forecolor			0.95 0.95 0.95 1 \
+		border				1 \
+		bordercolor			0 0.8 0.2 0.6 \
+		backcolor			0 0.4 0.1 0.85 \
+		visible				when( selCond ) \
+		exp					text(textArg) \
+		textfont			UI_FONT_NORMAL \
+		textscale			0.23 \
+		textalign			ITEM_ALIGN_CENTER \
+		textaligny			15 \
+		mouseEnter 			{ play "mouse_over"; \
+		setitemcolor "perf_btn_sel_" #itemNum backcolor 0 0.6 0.15 0.95; \
+		setLocalVarString ui_hintstring "^8>> ^7"onFocusArg \
+		} \
+		mouseExit 			{ \
+		setitemcolor "perf_btn_sel_" #itemNum backcolor 0 0.4 0.1 0.85; \
+		setLocalVarString ui_hintstring "^8>> ^7" \
+		} \
+		action 				{ play "mouse_click"; \
+		scriptMenuResponse responseArg;  \
+		}  \
+	}
+
+#define FOV_BUTTON_VIS( itemNum, xVal, yVal, textArg, responseArg, onFocusArg, unselCond, selCond ) \
+	/* Unselected */ \
+	itemDef \
+	{ \
+		name				"fov_btn_" #itemNum \
+		type 				ITEM_TYPE_BUTTON \
+		style				WINDOW_STYLE_FILLED \
+		rect				xVal yVal 110 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		forecolor			0.93 0.93 0.93 1.0 \
+		border				1 \
+		bordercolor			0 0.8 1 0.6 \
+		backcolor			0.1 0.1 0.1 0.8 \
+		visible				when( unselCond ) \
+		exp					text(textArg) \
+		textfont			UI_FONT_NORMAL \
+		textscale			0.23 \
+		textalign			ITEM_ALIGN_CENTER \
+		textaligny			15 \
+		mouseEnter 			{ play "mouse_over"; \
+		setitemcolor "fov_btn_" #itemNum backcolor 0 0.8 1 0.45; \
+		setLocalVarString ui_hintstring "^8>> ^7"onFocusArg \
+		} \
+		mouseExit 			{ \
+		setitemcolor "fov_btn_" #itemNum backcolor 0.1 0.1 0.1 0.8; \
+		setLocalVarString ui_hintstring "^8>> ^7" \
+		} \
+		action 				{ play "mouse_click"; \
+		scriptMenuResponse responseArg;  \
+		}  \
+	} \
+	/* Selected */ \
+	itemDef \
+	{ \
+		name				"fov_btn_sel_" #itemNum \
+		type 				ITEM_TYPE_BUTTON \
+		style				WINDOW_STYLE_FILLED \
+		rect				xVal yVal 110 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		forecolor			0.95 0.95 0.95 1 \
+		border				1 \
+		bordercolor			0 0.8 0.2 0.6 \
+		backcolor			0 0.4 0.1 0.85 \
+		visible				when( selCond ) \
+		exp					text(textArg) \
+		textfont			UI_FONT_NORMAL \
+		textscale			0.23 \
+		textalign			ITEM_ALIGN_CENTER \
+		textaligny			15 \
+		mouseEnter 			{ play "mouse_over"; \
+		setitemcolor "fov_btn_sel_" #itemNum backcolor 0 0.6 0.15 0.95; \
+		setLocalVarString ui_hintstring "^8>> ^7"onFocusArg \
+		} \
+		mouseExit 			{ \
+		setitemcolor "fov_btn_sel_" #itemNum backcolor 0 0.4 0.1 0.85; \
+		setLocalVarString ui_hintstring "^8>> ^7" \
+		} \
+		action 				{ play "mouse_click"; \
+		scriptMenuResponse responseArg;  \
+		}  \
+	}
+
+#include "ui_mp/menustyle.inc"
+
+{
+	menuDef 
+	{
+		name 			"player"
+		rect			0 0 640 480 
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		7
+		visible			1		
+		onOpen
+		{
+			setLocalVarString ui_hintstring "^8>> ^7";
+		}
+		onEsc
+		{
+			close self;
+			open player_menu;
+		}
+
+		// 1. Deep Black Immersive Background
+		itemDef
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+			backcolor		0.05 0.05 0.05 0.95 // Deep Black
+			visible			1
+			decoration
+		}
+
+		// 2. Subtle esports background glow
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+			background		"gradient_fadein"
+			forecolor		0 0.8 1 0.05 // Electric Blue glow
+			visible			1
+			decoration
+		}
+
+		// 3. Top accent brand line
+		itemDef
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			0 0 640 3 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_TOP
+			backcolor		0 0.8 1 0.6 // Electric Blue
+			visible			1
+			decoration
+		}
+
+		// 4. Header title
+		itemDef
+		{
+			rect			130 18 400 30 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			textalign		ITEM_ALIGN_LEFT
+			textscale		0.40
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			forecolor		0.93 0.93 0.93 1.0 // Off-white
+			exp text		("PLAYER SYSTEM CONFIGS")
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			rect			130 30 180 1 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			style			WINDOW_STYLE_FILLED
+			backcolor		0 0.48 1 0.7 // Electric Blue line
+			visible			1
+			decoration
+		}
+
+		// 5. Main Card Container (Centered Controls Panel)
+		itemDef
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			130 50 380 395 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			backcolor		0.05 0.05 0.05 0.95 // Dark Navy
+			border			1
+			bordercolor		0 0.8 1 0.6 // Ice Blue border
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			130 50 380 3 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			backcolor		0 0.48 1 0.8 // Electric Blue top strip
+			visible			1
+			decoration
+		}
+
+		// Subtle Semtex logo watermark in background of Left Box
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			270 197 100 100 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"semtex_logo"
+			forecolor		1 1 1 0.06 // Extremely subtle watermark
+			visible			1
+			decoration
+		}
+
+		// Section headers inside Left Box
+		// MUSIC HEADER
+		itemDef
+		{
+			rect			145 60 300 0 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		0 0.48 1 0.95
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			exp text		("MUSIC PLAYLISTS")
+			textfont		UI_FONT_NORMAL
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			textaligny		14
+			visible			1
+			decoration
+		}
+		
+		// FOV HEADER
+		itemDef 
+		{
+			rect			145 160 300 0 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		0 0.48 1 0.95
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			exp text		("FIELD OF VIEW (FOV)")
+			textfont		UI_FONT_NORMAL
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			textaligny		14
+ 			visible			1
+			decoration
+		}
+
+		
+		// PERFORMANCE HEADER
+		itemDef 
+		{
+			rect			145 336 300 0 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		0 0.48 1 0.95
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			exp text		("PERFORMANCE DIAGNOSTICS")
+			textfont		UI_FONT_NORMAL
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			textaligny		14
+ 			visible			1	
+			decoration
+		}
+
+		// Status Hint Bar
+		itemDef
+		{
+			rect			145 384 350 18 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			style			WINDOW_STYLE_FILLED
+			backcolor		0.1 0.1 0.1 0.8
+			border			1
+			bordercolor		0 0.8 1 0.65 // Electric Blue border
+			exp				text(localVarString("ui_hintstring"))
+			textfont		UI_FONT_NORMAL
+			textscale		0.20
+			forecolor		0.93 0.93 0.93 0.85
+			textalign		ITEM_ALIGN_LEFT
+			textalignx		5
+			textaligny		13
+			visible			1
+			decoration
+		} 
+
+		// BACK BUTTON
+		itemDef
+		{
+			name			"back_btn"
+			rect			145 412 110 22 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			style			WINDOW_STYLE_FILLED
+			backcolor		0.1 0.1 0.1 0.8
+			border			1
+			bordercolor		0 0.8 1 0.65
+			forecolor		0.93 0.93 0.93 0.85
+			text			"BACK"
+			textfont		UI_FONT_NORMAL
+			textscale		0.26
+			textalign		ITEM_ALIGN_CENTER
+			textaligny		16
+			visible			1
+			mouseEnter		{ play "mouse_over"; setitemcolor "back_btn" backcolor 0 0.8 1 0.45; }
+			mouseExit		{ setitemcolor "back_btn" backcolor 0.1 0.1 0.1 0.8; }
+			action			{ play "mouse_click"; scriptMenuResponse playermenuclose; close self; open player_menu; }
+		}
+
+		// Interactive selections with green selected highlights (EXPLICIT POSITIONS - NO NEGATION)
+
+
+
+
+
+
+
+
+		/* Music Toggle - ON State */
+		itemDef
+		{
+			name				"music_btn_9"
+			type 				ITEM_TYPE_BUTTON
+			style				WINDOW_STYLE_FILLED
+			rect				385 126 110 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor			0.95 0.95 0.95 1
+			border				1
+			bordercolor			0 0.8 0.2 0.6
+			backcolor			0 0.4 0.1 0.85
+			visible				when( stat(1224) != 0 )
+			text				"Music (EndRound + EndMap): ON"
+			textfont			UI_FONT_NORMAL
+			textscale			0.23
+			textalign			ITEM_ALIGN_CENTER
+			textaligny			15
+			mouseEnter 			{ play "mouse_over";
+			setitemcolor "music_btn_9" backcolor 0 0.6 0.15 0.95;
+			setLocalVarString ui_hintstring "^8>> ^7Enable / Disable ^8All Music."
+			}
+			mouseExit 			{
+			setitemcolor "music_btn_9" backcolor 0 0.4 0.1 0.85;
+			setLocalVarString ui_hintstring "^8>> ^7"
+			}
+			action 				{ play "mouse_click";
+			scriptMenuResponse "musicoff";
+			}
+		}
+		/* Music Toggle - OFF State */
+		itemDef
+		{
+			name				"music_btn_sel_9"
+			type 				ITEM_TYPE_BUTTON
+			style				WINDOW_STYLE_FILLED
+			rect				385 126 110 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor			0.93 0.93 0.93 1.0
+			border				1
+			bordercolor			0 0.8 1 0.6
+			backcolor			0.1 0.1 0.1 0.8
+			visible				when( stat(1224) == 0 )
+			text				"Music (EndRound + EndMap): OFF"
+			textfont			UI_FONT_NORMAL
+			textscale			0.23
+			textalign			ITEM_ALIGN_CENTER
+			textaligny			15
+			mouseEnter 			{ play "mouse_over";
+			setitemcolor "music_btn_sel_9" backcolor 0 0.8 1 0.45;
+			setLocalVarString ui_hintstring "^8>> ^7Enable / Disable ^8All Music."
+			}
+			mouseExit 			{
+			setitemcolor "music_btn_sel_9" backcolor 0.1 0.1 0.1 0.8;
+			setLocalVarString ui_hintstring "^8>> ^7"
+			}
+			action 				{ play "mouse_click";
+			scriptMenuResponse "musicoff";
+			}
+		}
+
+		FOV_BUTTON_VIS( 1, 145, 178, "FOV 1.0", "fov1", "Set ^81.0^7 Field of View.", (dvarInt("ui_fov_scale")!=2), (dvarInt("ui_fov_scale")==2) )
+		FOV_BUTTON_VIS( 4, 265, 178, "FOV 1.1", "fov2", "Set ^81.1^7 Field of View.", (dvarInt("ui_fov_scale")!=3), (dvarInt("ui_fov_scale")==3) )
+		FOV_BUTTON_VIS( 7, 385, 178, "FOV 1.125", "fov3", "Set ^81.125^7 Field of View.", (dvarInt("ui_fov_scale")!=4), (dvarInt("ui_fov_scale")==4) )
+		FOV_BUTTON_VIS( 2, 145, 202, "FOV 1.2", "fov4", "Set ^81.2^7 Field of View.", (dvarInt("ui_fov_scale")!=5), (dvarInt("ui_fov_scale")==5) )
+		FOV_BUTTON_VIS( 5, 265, 202, "FOV 1.25", "fov5", "Set ^81.25^7 Field of View.", (dvarInt("ui_fov_scale")!=6), (dvarInt("ui_fov_scale")==6) )
+		FOV_BUTTON_VIS( 8, 385, 202, "FOV 1.3", "fov6", "Set ^81.3^7 Field of View.", (dvarInt("ui_fov_scale")!=7), (dvarInt("ui_fov_scale")==7) )
+		FOV_BUTTON_VIS( 3, 145, 226, "FOV 1.35", "fov7", "Set ^81.35^7 Field of View.", (dvarInt("ui_fov_scale")!=8), (dvarInt("ui_fov_scale")==8) )
+		FOV_BUTTON_VIS( 6, 265, 226, "FOV 1.4", "fov8", "Set ^81.4^7 Field of View.", (dvarInt("ui_fov_scale")!=9), (dvarInt("ui_fov_scale")==9) )
+		FOV_BUTTON_VIS( 9, 385, 226, "FOV 1.45", "fov9", "Set ^81.45^7 Field of View.", (dvarInt("ui_fov_scale")!=10), (dvarInt("ui_fov_scale")==10) )
+
+		PERF_BUTTON_VIS( 1, 145, 354, "FPS On", "fpson", "Enable ^8FPS Counter.", (stat(1222)!=1), (stat(1222)==1) )
+		PERF_BUTTON_VIS( 2, 265, 354, "FPS Off", "fpsoff", "Disable ^8FPS Counter.", (stat(1222)!=0), (stat(1222)==0) )
+
+		/* Endmusic Toggle - ON State */
+		itemDef
+		{
+			name				"perf_btn_3"
+			type 				ITEM_TYPE_BUTTON
+			style				WINDOW_STYLE_FILLED
+			rect				385 354 110 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor			0.95 0.95 0.95 1
+			border				1
+			bordercolor			0 0.8 0.2 0.6
+			backcolor			0 0.4 0.1 0.85
+			visible				when( stat(1223) != 2 )
+			text				"Endmusic: ON"
+			textfont			UI_FONT_NORMAL
+			textscale			0.23
+			textalign			ITEM_ALIGN_CENTER
+			textaligny			15
+			mouseEnter 			{ play "mouse_over";
+			setitemcolor "perf_btn_3" backcolor 0 0.6 0.15 0.95;
+			setLocalVarString ui_hintstring "^8>> ^7Toggle ^8Endround Music^7 On/Off."
+			}
+			mouseExit 			{
+			setitemcolor "perf_btn_3" backcolor 0 0.4 0.1 0.85;
+			setLocalVarString ui_hintstring "^8>> ^7"
+			}
+			action 				{ play "mouse_click";
+			scriptMenuResponse "endround_music_toggle";
+			}
+		}
+		/* Endmusic Toggle - OFF State */
+		itemDef
+		{
+			name				"perf_btn_sel_3"
+			type 				ITEM_TYPE_BUTTON
+			style				WINDOW_STYLE_FILLED
+			rect				385 354 110 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor			0.93 0.93 0.93 1.0
+			border				1
+			bordercolor			0 0.8 1 0.6
+			backcolor			0.1 0.1 0.1 0.8
+			visible				when( stat(1223) == 2 )
+			text				"Endmusic: OFF"
+			textfont			UI_FONT_NORMAL
+			textscale			0.23
+			textalign			ITEM_ALIGN_CENTER
+			textaligny			15
+			mouseEnter 			{ play "mouse_over";
+			setitemcolor "perf_btn_sel_3" backcolor 0 0.8 1 0.45;
+			setLocalVarString ui_hintstring "^8>> ^7Toggle ^8Endround Music^7 On/Off."
+			}
+			mouseExit 			{
+			setitemcolor "perf_btn_sel_3" backcolor 0.1 0.1 0.1 0.8;
+			setLocalVarString ui_hintstring "^8>> ^7"
+			}
+			action 				{ play "mouse_click";
+			scriptMenuResponse "endround_music_toggle";
+			}
+		}
+
+	}
+}

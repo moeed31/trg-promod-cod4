@@ -1,0 +1,201 @@
+#include "ui/menudef.h"
+#include "ui_mp/common_macro.inc"
+{
+	menuDef 
+	{
+		name			"connect"
+		fullScreen		0
+		focusColor		COLOR_FOCUSED
+		visible			1		
+		rect			FULLSCREEN
+		
+		#include "ui/bg.inc"
+
+		// LEFT CORNER: LOADING MAP BRIEFING IMAGE (MOVED DOWN TO VERTICAL CENTER)
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			40 0 232 115 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_CENTER
+			background		"$levelBriefing"
+			forecolor		0.95 0.95 0.95 1
+			visible 		1
+			border			1
+			borderColor		0 0 0 1
+			decoration
+		}
+
+		// RIGHT CORNER: "ABOUT THE RIPPERS GAMING" BACKGROUND BOX (MOVED DOWN TO VERTICAL CENTER)
+		itemDef 
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			-275 0 235 115 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_CENTER
+			backcolor		0.05 0.05 0.05 0.95
+			visible			1
+			border			1
+			borderColor		0 0.8 1 0.6
+			decoration
+		}
+		itemDef 
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			-275 0 235 24 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_CENTER
+			backcolor		0 0.8 1 0.6
+			border			1
+			borderColor		0 0.8 1 0.6
+			visible			1
+			decoration
+		}	
+
+		// CONTAINER TEXT ELEMENTS & SOCIAL HANDLES (VERTICAL COORD ADJUSTED RELATIVE TO CENTER)
+		itemDef
+		{
+			text			"The Rippers Gaming"
+			rect			-157.5 17 0 0 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_CENTER
+			textfont		UI_FONT_DEFAULT
+			textscale		0.32
+			textalign		ITEM_ALIGN_CENTER
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			forecolor		0.95 0.95 0.95 1
+			visible 		1
+			decoration 
+		}
+		itemDef
+		{
+			text			"Custom Promod Server Build"
+			rect			-157.5 38 0 0 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_CENTER
+			textfont		UI_FONT_DEFAULT
+			textscale		0.24
+			textalign		ITEM_ALIGN_CENTER
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			forecolor		0.9 0.9 0.9 0.9
+			visible 		1
+			decoration 
+		}
+		itemDef
+		{
+			text			"TeamSpeak: trv.ddnsgeek.com"
+			rect			-157.5 58 0 0 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_CENTER
+			textfont		UI_FONT_DEFAULT
+			textscale		0.25
+			textalign		ITEM_ALIGN_CENTER
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			forecolor		0.35 0.55 1 1
+			visible 		1
+			decoration 
+		}
+		itemDef
+		{
+			text			"Website: TRGaming.ddnsgeek.com"
+			rect			-157.5 76 0 0 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_CENTER
+			textfont		UI_FONT_DEFAULT
+			textscale		0.25
+			textalign		ITEM_ALIGN_CENTER
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			forecolor		0.2 0.9 0.2 1
+			visible 		1
+			decoration 
+		}
+		itemDef
+		{
+			text			"Welcome to our competitive arena!"
+			rect			-157.5 95 0 0 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_CENTER
+			textfont		UI_FONT_DEFAULT
+			textscale		0.22
+			textalign		ITEM_ALIGN_CENTER
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			forecolor		1 0.8 0.2 1
+			visible 		1
+			decoration 
+		}
+
+		// Core Loading Progress Bars & Layout Framework
+
+		itemDef 
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			0 0 1000 25 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			backcolor		0.05 0.05 0.05 0.95
+			visible			1	
+		}
+		itemDef 
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			0 -35 1000 37 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
+			backcolor		0.05 0.05 0.05 0.95
+			visible			1	
+		}
+		itemDef 
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			0 24 1000 1 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			backcolor		0 0.8 1 0.6
+			visible			1	
+		}
+		itemDef 
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			0 -34 1000 1.5 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
+			backcolor		0 0.8 1 0.6
+			visible			1	
+		}
+		itemDef 
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			0 -36 1000 1 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
+			backcolor		0 0.8 1 0.6
+			visible			1	
+		}
+		itemDef 
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			-170 26 200 62 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_TOP
+			background		"gradient_fadein"
+			forecolor		0 0 0 1
+			visible			1	
+		}
+		itemDef 
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			0 26 1000 1 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			backcolor		0 0 0 1
+			visible			1	
+		}
+		itemDef 
+		{
+			name			"loadbar"
+			style			WINDOW_STYLE_LOADBAR
+			rect			-250 -20 500 10 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM
+			origin 			0 0
+			background		"white"
+			forecolor		1 1 1 1
+			visible			1	
+		}
+
+		// Top Accent Header Branding Text
+		itemDef
+		{
+			rect			-10 42 0 0 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_TOP
+			text			"The Rippers Gaming Edition"
+			textfont		UI_FONT_DEFAULT
+			textscale		0.3
+			textalign		ITEM_ALIGN_RIGHT
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			forecolor		0.95 0.95 0.95 1
+			visible 		1
+			decoration 
+		}
+		itemDef
+		{
+			rect			-10 57 0 0 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_TOP
+			text			"Community Public Server Match"
+			textfont		UI_FONT_DEFAULT
+			textscale		0.22
+			textalign		ITEM_ALIGN_RIGHT
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			forecolor		0.7 0.7 0.7 1
+			visible 		1
+			decoration 
+		}
+		#include "ui/safearea.menu"
+	}
+}

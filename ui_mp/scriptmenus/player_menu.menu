@@ -1,0 +1,1188 @@
+#include "ui_mp/common_macro.inc"
+#include "ui_mp/menustyle.inc"
+#include "ui/menudef.h"
+#include "ui/menudefinition.h"
+
+{
+    menuDef
+    {
+        name                      "player_menu"
+        rect                      0 0 640 480 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+        borderSize                1
+        foreColor                 1 1 1 1
+        backColor                 0 0 0 0
+        borderColor               0 0 0 0
+        outlineColor              0 0 0 0
+        blurWorld                 7
+        onOpen                    { setLocalVarInt ui_highlight ""; setLocalVarString ui_team "marines"; }
+        onESC                     { close self ; }
+        focusColor                0.95294 0.72156 0.21176 1
+        disableColor              0 0 0 0
+        visible 0                 
+        
+        // 1. Deep Black Immersive Background
+        itemDef
+        {
+            style                     WINDOW_STYLE_FILLED
+            rect                      0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+            backColor                 0 0 0 0.75
+            visible                   1
+            decoration                
+        }
+        
+        // 2. Animated Fog Background
+        itemDef
+        {
+            rect                      -107 0 1708 480 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.7
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "animbg_fogscroll"
+            textScale                 0.55
+            exp                       rect X ( ( ( ( - 107 ) - ( ( float( milliseconds( ) % 60000 ) / 60000 ) * ( 854 ) ) ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -107 0 1708 480 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.7
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "animbg_fogscrollthin"
+            textScale                 0.55
+            exp                       rect X ( ( ( ( - 961 ) + ( ( float( milliseconds( ) % 100000 ) / 100000 ) * ( 854 ) ) ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        
+        // 3. Dark Overlay
+        itemDef
+        {
+            rect                      0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+            style                     WINDOW_STYLE_FILLED
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0.28
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        
+        // 4. Left Panel Background
+        itemDef
+        {
+            rect                      0 0 290 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+            style                     WINDOW_STYLE_FILLED
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0.35
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        
+        // 5. Left Panel Edge Glow
+        itemDef
+        {
+            rect                      -40 0 1 480 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.8
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            exp                       material ( ( ( "button_highlight_end" ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -40 0 8 480 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.75
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            exp                       material ( ( ( "gradient" ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+
+        // --- RIGHT SIDE CONTENT ---
+
+        // Semtex Logo Placement
+        itemDef
+        {
+            style           WINDOW_STYLE_SHADER
+            rect 330 22 255 120
+            background      "semtex_logo"
+            visible         1
+            decoration
+        }
+
+        
+
+        // About Section
+        itemDef
+        {
+            rect 320 144 290 15
+            textalign       ITEM_ALIGN_CENTER
+            textscale 0.3
+            forecolor 0.93 0.93 0.93 1
+            exp text        ("A premier esports and gaming community built by and for players.")
+            visible         1
+            decoration
+        }
+        itemDef
+        {
+            rect 320 156 290 15
+            textalign       ITEM_ALIGN_CENTER
+            textscale 0.3
+            forecolor 0.93 0.93 0.93 1
+            exp text        ("Dedicated to hosting high-performance custom servers, active tournaments,")
+            visible         1
+            decoration
+        }
+        itemDef
+        {
+            rect 320 168 290 15
+            textalign       ITEM_ALIGN_CENTER
+            textscale 0.3
+            forecolor 0.93 0.93 0.93 1
+            exp text        ("and maintaining a toxic-free competitive matchmaking environment.")
+            visible         1
+            decoration
+        }
+
+        // Social Media Title
+        itemDef
+        {
+            rect 317 208 307 15
+            textalign       ITEM_ALIGN_CENTER
+            textscale 0.5
+            forecolor 1 1 1 0.8
+            exp text        ("CONTACT & SOCIALS")
+            visible         1
+            decoration
+        }
+
+        // Social Media Columns (Left side)
+        itemDef
+        {
+            rect 306 221 126 15
+            textalign       ITEM_ALIGN_LEFT
+            textscale       0.21
+            forecolor       0.93 0.93 0.93 0.85
+            exp text        ("Discord: discord.gg/UwqhtNgJbn")
+            visible         1
+            decoration
+        }
+        itemDef
+        {
+            rect 306 233 127 15
+            textalign       ITEM_ALIGN_LEFT
+            textscale       0.21
+            forecolor       0.93 0.93 0.93 0.85
+            exp text        ("YouTube: youtube.com/@therippersgaming")
+            visible         1
+            decoration
+        }
+        itemDef
+        {
+            rect 306 244 126 15
+            textalign       ITEM_ALIGN_LEFT
+            textscale       0.21
+            forecolor       0.93 0.93 0.93 0.85
+            exp text        ("TeamSpeak: trv.ddnsgeek.com")
+            visible         1
+            decoration
+        }
+
+        // Social Media Columns (Right side)
+        itemDef
+        {
+            rect 504 219 179 15
+            textalign       ITEM_ALIGN_LEFT
+            textscale       0.21
+            forecolor       0.93 0.93 0.93 0.85
+            exp text        ("Instagram: @therippersgaming")
+            visible         1
+            decoration
+        }
+        itemDef
+        {
+            rect 504 233 179 15
+            textalign       ITEM_ALIGN_LEFT
+            textscale       0.21
+            forecolor       0.93 0.93 0.93 0.85
+            exp text        ("FaceBook: /Therippersgaming")
+            visible         1
+            decoration
+        }
+        itemDef
+        {
+            rect 504 247 180 15
+            textalign       ITEM_ALIGN_LEFT
+            textscale       0.21
+            forecolor       0.93 0.93 0.93 0.85
+            exp text        ("TikTok: @therippersgaming")
+            visible         1
+            decoration
+        }
+
+        // Server IP
+        itemDef
+        {
+            rect 315 276 305 15
+            textalign       ITEM_ALIGN_CENTER
+            textscale 0.5
+            forecolor 1 1 1 1
+            exp text        ("Website: TRGaming.ddnsgeek.com")
+            visible         1
+            decoration
+        }
+
+
+        
+        
+
+        
+
+        
+
+        // --- NAVIGATION BUTTONS ---
+
+        itemDef
+        {
+            rect                      -30 40 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 0.95294 0.72156 0.21176 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.45
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Player Customization"
+            visible                   1
+            decoration
+        }
+        itemDef
+        {
+            rect                      -20 62 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 62 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   when ( localvarint( "ui_highlight_main" ) == 12 )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 62 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Gloves ^7<"
+            action                    { play mouse_click ; scriptMenuResponse "open_gloves"; close self; }
+            onFocus                   { play mouse_over ; setLocalVarInt ui_highlight_main 12 ; }
+            leaveFocus                { setLocalVarInt ui_highlight_main 0 ; }
+            visible                   when ( 1 )
+        }
+        itemDef
+        {
+            rect                      -20 84 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 84 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   when ( localvarint( "ui_highlight_main" ) == 1 )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 84 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Sprays ^7<"
+            action                    { play mouse_click ; scriptMenuResponse "open_sprays"; close self; }
+            onFocus                   { play mouse_over ; setLocalVarInt ui_highlight_main 1 ; }
+            leaveFocus                { setLocalVarInt ui_highlight_main 0 ; }
+            visible                   when ( 1 )
+        }
+        itemDef
+        {
+            rect                      -20 106 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 106 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   when ( localvarint( "ui_highlight_main" ) == 2 )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 106 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Kill Effects ^7<"
+            action                    { play mouse_click ; scriptMenuResponse "open_kill_effects"; close self; }
+            onFocus                   { play mouse_over ; setLocalVarInt ui_highlight_main 2 ; }
+            leaveFocus                { setLocalVarInt ui_highlight_main 0 ; }
+            visible                   when ( 1 )
+        }
+        itemDef
+        {
+            rect                      -20 128 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 128 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   when ( localvarint( "ui_highlight_main" ) == 3 )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 128 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "HUD ^7<"
+            action                    { play mouse_click ; scriptMenuResponse "open_customization"; close self; }
+            onFocus                   { play mouse_over ; setLocalVarInt ui_highlight_main 3 ; }
+            leaveFocus                { setLocalVarInt ui_highlight_main 0 ; }
+            visible                   when ( 1 )
+        }
+        itemDef
+        {
+            rect                      -20 150 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 150 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   when ( localvarint( "ui_highlight_main" ) == 13 )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 150 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "^3VIP ^7<"
+            action                    { play mouse_click ; scriptMenuResponse "open_vip"; close self; }
+            onFocus                   { play mouse_over ; setLocalVarInt ui_highlight_main 13 ; }
+            leaveFocus                { setLocalVarInt ui_highlight_main 0 ; }
+            visible                   when ( 1 )
+        }
+        itemDef
+        {
+            rect                      -30 180 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 0.95294 0.72156 0.21176 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.45
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Knife Round"
+            visible                   1
+            decoration
+        }
+        itemDef
+        {
+            rect                      -20 202 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 202 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   when ( localvarint( "ui_highlight_main" ) == 4 )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 202 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Character ^7<"
+            action                    { play mouse_click ; scriptMenuResponse "open_character"; close self; }
+            onFocus                   { play mouse_over ; setLocalVarInt ui_highlight_main 4 ; }
+            leaveFocus                { setLocalVarInt ui_highlight_main 0 ; }
+            visible                   when ( 1 )
+        }
+        itemDef
+        {
+            rect                      -20 224 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 224 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   when ( localvarint( "ui_highlight_main" ) == 5 )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 224 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Trails ^7<"
+            action                    { play mouse_click ; scriptMenuResponse "open_knife_customization"; close self; }
+            onFocus                   { play mouse_over ; setLocalVarInt ui_highlight_main 5 ; }
+            leaveFocus                { setLocalVarInt ui_highlight_main 0 ; }
+            visible                   when ( 1 )
+        }
+        itemDef
+        {
+            rect                      -30 254 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 0.95294 0.72156 0.21176 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.45
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Toggles & Binds"
+            visible                   1
+            decoration
+        }
+        itemDef
+        {
+            rect                      -20 276 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 276 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   when ( localvarint( "ui_highlight_main" ) == 6 )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 276 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Killcam Music: ^2ON "
+            action                    { play mouse_click ; scriptMenuResponse "musicoff"; }
+            onFocus                   { play mouse_over ; setLocalVarInt ui_highlight_main 6 ; }
+            leaveFocus                { setLocalVarInt ui_highlight_main 0 ; }
+            visible                   when ( stat(1224) != 0 )
+        }
+        itemDef
+        {
+            rect                      -20 276 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 276 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   when ( localvarint( "ui_highlight_main" ) == 6 )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 276 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Killcam Music: ^1OFF "
+            action                    { play mouse_click ; scriptMenuResponse "musicoff"; }
+            onFocus                   { play mouse_over ; setLocalVarInt ui_highlight_main 6 ; }
+            leaveFocus                { setLocalVarInt ui_highlight_main 0 ; }
+            visible                   when ( stat(1224) == 0 )
+        }
+        itemDef
+        {
+            rect                      -20 298 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 298 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   when ( localvarint( "ui_highlight_main" ) == 7 )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 298 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Endround Music: ^2ON "
+            action                    { play mouse_click ; scriptMenuResponse "endround_music_toggle"; }
+            onFocus                   { play mouse_over ; setLocalVarInt ui_highlight_main 7 ; }
+            leaveFocus                { setLocalVarInt ui_highlight_main 0 ; }
+            visible                   when ( stat(1223) != 2 )
+        }
+        itemDef
+        {
+            rect                      -20 298 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 298 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   when ( localvarint( "ui_highlight_main" ) == 7 )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 298 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Endround Music: ^1OFF "
+            action                    { play mouse_click ; scriptMenuResponse "endround_music_toggle"; }
+            onFocus                   { play mouse_over ; setLocalVarInt ui_highlight_main 7 ; }
+            leaveFocus                { setLocalVarInt ui_highlight_main 0 ; }
+            visible                   when ( stat(1223) == 2 )
+        }
+        itemDef
+        {
+            rect                      -20 320 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 320 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   when ( localvarint( "ui_highlight_main" ) == 14 )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 320 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Kill Effects: ^2ON "
+            action                    { play mouse_click ; scriptMenuResponse "killeffects_toggle"; }
+            onFocus                   { play mouse_over ; setLocalVarInt ui_highlight_main 14 ; }
+            leaveFocus                { setLocalVarInt ui_highlight_main 0 ; }
+            visible                   when ( stat(1225) != 1 )
+        }
+        itemDef
+        {
+            rect                      -20 320 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 320 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   when ( localvarint( "ui_highlight_main" ) == 14 )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 320 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Kill Effects: ^1OFF "
+            action                    { play mouse_click ; scriptMenuResponse "killeffects_toggle"; }
+            onFocus                   { play mouse_over ; setLocalVarInt ui_highlight_main 14 ; }
+            leaveFocus                { setLocalVarInt ui_highlight_main 0 ; }
+            visible                   when ( stat(1225) == 1 )
+        }
+        itemDef
+        {
+            rect                      -20 342 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 342 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   when ( localvarint( "ui_highlight_main" ) == 8 )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -75 342 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Spray: "
+            visible                   1
+            decoration
+        }
+        itemDef
+        {
+            rect                      -20 342 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BIND
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      " "
+            dvar                      "openscriptmenu player_menu spray"
+            onFocus                   { play mouse_over ; setLocalVarInt ui_highlight_main 8 ; }
+            leaveFocus                { setLocalVarInt ui_highlight_main 0 ; }
+            visible                   1
+        }
+        itemDef
+        {
+            rect                      -20 364 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 364 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   when ( localvarint( "ui_highlight_main" ) == 9 )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -75 364 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Emote: "
+            visible                   1
+            decoration
+        }
+        itemDef
+        {
+            rect                      -20 364 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BIND
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      " "
+            dvar                      "openscriptmenu player_menu emote"
+            onFocus                   { play mouse_over ; setLocalVarInt ui_highlight_main 9 ; }
+            leaveFocus                { setLocalVarInt ui_highlight_main 0 ; }
+            visible                   1
+        }
+        itemDef
+        {
+            rect                      -30 394 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 0.95294 0.72156 0.21176 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.45
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Info"
+            visible                   1
+            decoration
+        }
+        itemDef
+        {
+            rect                      -20 416 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 416 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   when ( localvarint( "ui_highlight_main" ) == 10 )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 416 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "TRG Ranking System ^7<"
+            action                    { play mouse_click ; scriptMenuResponse "open_trg_ranks"; close self; }
+            onFocus                   { play mouse_over ; setLocalVarInt ui_highlight_main 10 ; }
+            leaveFocus                { setLocalVarInt ui_highlight_main 0 ; }
+            visible                   when ( 1 )
+        }
+        itemDef
+        {
+            rect                      -20 446 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 446 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   when ( localvarint( "ui_highlight_main" ) == 11 )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -20 446 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "Back ^7<"
+            action                    { play mouse_click ; close self; }
+            onFocus                   { play mouse_over ; setLocalVarInt ui_highlight_main 11 ; }
+            leaveFocus                { setLocalVarInt ui_highlight_main 0 ; }
+            visible                   when ( 1 )
+        }
+    }
+}

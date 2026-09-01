@@ -1,0 +1,853 @@
+#include "ui/menudef.h"
+
+#define HIT_IMAGE_VIS( itemNum, xVal, yVal, shaderName, responseArg, onFocusArg, unselCond, selCond ) \
+	/* Unselected Image */ \
+	itemDef \
+	{ \
+		style				WINDOW_STYLE_SHADER \
+		rect				xVal yVal 35 35 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		background			shaderName \
+		forecolor			1 1 1 0.5 \
+		border				1 \
+		bordercolor			0.3 0.3 0.3 0.5 \
+		visible				when( unselCond ) \
+		decoration \
+	} \
+	/* Selected Image */ \
+	itemDef \
+	{ \
+		style				WINDOW_STYLE_SHADER \
+		rect				xVal yVal 35 35 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		background			shaderName \
+		forecolor			0.95 0.95 0.95 1 \
+		border				1 \
+		bordercolor			0.95 0.72 0.21 1 \
+		visible				when( selCond ) \
+		decoration \
+	} \
+	/* Interactive Button Overlay */ \
+	itemDef \
+	{ \
+		name				"hit_btn_" #itemNum \
+		type 				ITEM_TYPE_BUTTON \
+		style				WINDOW_STYLE_FILLED \
+		rect				xVal yVal 35 35 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		backcolor			0 0 0 0 \
+		visible				1 \
+		mouseEnter 			{ play "mouse_over"; \
+		setLocalVarString ui_hintstring "^8>> ^7"onFocusArg \
+		} \
+		mouseExit 			{ \
+		setLocalVarString ui_hintstring "^8>> ^7" \
+		} \
+		action 				{ play "mouse_click"; \
+		scriptMenuResponse  responseArg;  \
+		}  \
+	}
+
+#define HUD_IMAGE_VIS( itemNum, xVal, yVal, shaderName, colorVal, responseArg, onFocusArg, unselCond, selCond ) \
+	/* Background box */ \
+	itemDef \
+	{ \
+		style				WINDOW_STYLE_FILLED \
+		rect				xVal yVal 70 44 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		backcolor			0.05 0.05 0.05 0.8 \
+		border				1 \
+		bordercolor			0.3 0.3 0.3 0.5 \
+		visible				when( unselCond ) \
+		decoration \
+	} \
+	itemDef \
+	{ \
+		style				WINDOW_STYLE_FILLED \
+		rect				xVal yVal 70 44 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		backcolor			0.05 0.05 0.05 0.8 \
+		border				1 \
+		bordercolor			0.95 0.72 0.21 1 \
+		visible				when( selCond ) \
+		decoration \
+	} \
+	/* The actual shader image */ \
+	itemDef \
+	{ \
+		style				WINDOW_STYLE_SHADER \
+		rect				(xVal+2) (yVal+2) 66 40 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		background			shaderName \
+		forecolor			colorVal 0.6 \
+		visible				when( unselCond ) \
+		decoration \
+	} \
+	itemDef \
+	{ \
+		style				WINDOW_STYLE_SHADER \
+		rect				(xVal+2) (yVal+2) 66 40 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		background			shaderName \
+		forecolor			colorVal 1.0 \
+		visible				when( selCond ) \
+		decoration \
+	} \
+	/* Interactive Button Overlay */ \
+	itemDef \
+	{ \
+		name				"hud_btn_" #itemNum \
+		type 				ITEM_TYPE_BUTTON \
+		style				WINDOW_STYLE_FILLED \
+		rect				xVal yVal 70 44 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		backcolor			0 0 0 0 \
+		visible				1 \
+		mouseEnter 			{ play "mouse_over"; \
+		setLocalVarString ui_hintstring "^8>> ^7"onFocusArg \
+		} \
+		mouseExit 			{ \
+		setLocalVarString ui_hintstring "^8>> ^7" \
+		} \
+		action 				{ play "mouse_click"; \
+		scriptMenuResponse  responseArg;  \
+		}  \
+	}
+
+#define KCARD_IMAGE_VIS( itemNum, xVal, yVal, shaderName, colorVal, textLabel, responseArg, onFocusArg, unselCond, selCond ) \
+	/* The actual shader image (Unselected) */ \
+	itemDef \
+	{ \
+		style				WINDOW_STYLE_SHADER \
+		rect				xVal yVal 90 30 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		background			shaderName \
+		forecolor			colorVal 0.5 \
+		border				1 \
+		bordercolor			0.3 0.3 0.3 0.5 \
+		visible				when( unselCond ) \
+		decoration \
+	} \
+	/* The actual shader image (Selected) */ \
+	itemDef \
+	{ \
+		style				WINDOW_STYLE_SHADER \
+		rect				xVal yVal 90 30 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		background			shaderName \
+		forecolor			colorVal 1.0 \
+		border				1 \
+		bordercolor			0.95 0.72 0.21 1 \
+		visible				when( selCond ) \
+		decoration \
+	} \
+	/* Interactive Button Overlay */ \
+	itemDef \
+	{ \
+		name				"kcard_btn_" #itemNum \
+		type 				ITEM_TYPE_BUTTON \
+		style				WINDOW_STYLE_FILLED \
+		rect				xVal yVal 90 30 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP \
+		backcolor			0 0 0 0 \
+		visible				1 \
+		mouseEnter 			{ play "mouse_over"; \
+		setLocalVarString ui_hintstring "^8>> ^7"onFocusArg \
+		} \
+		mouseExit 			{ \
+		setLocalVarString ui_hintstring "^8>> ^7" \
+		} \
+		action 				{ play "mouse_click"; \
+		scriptMenuResponse  responseArg;  \
+		}  \
+	}
+
+#include "ui_mp/menustyle.inc"
+
+{
+	menuDef 
+	{
+		name 			"customization"
+		rect			0 0 640 480 
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		7
+		visible			1		
+		onOpen
+		{
+			setLocalVarString ui_hintstring "^8>> ^7";
+		}
+		onEsc
+		{
+			close self;
+			open player_menu;
+		}
+
+				// 1. Deep Black Immersive Background
+        itemDef
+        {
+            style                     WINDOW_STYLE_FILLED
+            rect                      0 0 420 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+            backColor                 0 0 0 0.75
+            visible                   1
+            decoration                
+        }
+        
+        // 2. Animated Fog Background
+        itemDef
+        {
+            rect                      -107 0 1708 480 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.7
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "animbg_fogscroll"
+            textScale                 0.55
+            exp                       rect X ( ( ( ( - 107 ) - ( ( float( milliseconds( ) % 60000 ) / 60000 ) * ( 854 ) ) ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      -107 0 1708 480 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.7
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "animbg_fogscrollthin"
+            textScale                 0.55
+            exp                       rect X ( ( ( ( - 961 ) + ( ( float( milliseconds( ) % 100000 ) / 100000 ) * ( 854 ) ) ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        
+        // 3. Dark Overlay
+        itemDef
+        {
+            rect                      0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+            style                     WINDOW_STYLE_FILLED
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0.28
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        
+        //
+        
+        // 5. Left Panel Edge Glow (SHRUNK TO 220)
+        itemDef
+        {
+            rect                      100 0 1 480 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.8
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            exp                       material ( ( ( "button_highlight_end" ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+        itemDef
+        {
+            rect                      100 0 8 480 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 0.75
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            exp                       material ( ( ( "gradient" ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+
+        // Title (Matching Modern Layout)
+        itemDef
+        {
+            rect                      70 18 300 30 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 0.445 0.457 0.527 0.4
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            background                "menu_button_backg"
+            textScale                 0.55
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      70 45 300 6 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            style                     WINDOW_STYLE_SHADER
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textScale                 0.55
+            exp                       material ( ( ( "menu_button_backg" ) ) );
+            visible                   1
+            decoration                
+        }
+        itemDef
+        {
+            rect                      70 18 300 30 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 0.95294 0.72156 0.21176 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -10
+            textScale                 0.51
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "CUSTOMIZATION"
+            visible                   1
+        }
+
+        itemDef
+        {
+            rect -179 10 129 30 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 0.95294 0.72156 0.21176 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -10
+            textScale                 0.51
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "PREVIEW"
+            visible                   1
+        }
+
+		// 5. Main Control Card Container (Left Panel - INCREASED WIDTH 300)
+
+		// 6. Live Preview Card Container (Right Panel - WIDTH 220)
+
+		// Subtle Semtex logo watermark in background of selections
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			190 230 120 120 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"semtex_logo"
+			forecolor		1 1 1 0.04 // Extremely subtle watermark
+			visible			1
+			decoration
+		}
+
+		// Section headers inside Left Box
+		// HIT FEEDBACK ICON HEADER
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect 23 64 361 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"menu_button_backg"
+			forecolor		1 1 1 0.4
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			rect			28 65 280 0 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		1 1 1 0.95
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			exp text		("HIT FEEDBACK MARKER ICON")
+			textfont		UI_FONT_OBJECTIVE
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			textaligny		14
+			visible			1
+			decoration
+		}
+		
+		// KILLCAM HUD OVERLAY HEADER
+		itemDef 
+		{
+			style			WINDOW_STYLE_SHADER
+			rect 19 164 357 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"menu_button_backg"
+			forecolor		1 1 1 0.4
+			visible			1
+			decoration
+		}
+		itemDef 
+		{
+			rect			28 165 280 0 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		1 1 1 0.95
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			exp text		("KILLCAM HUD OVERLAY DESIGN")
+			textfont		UI_FONT_OBJECTIVE
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			textaligny		14
+ 			visible			1
+			decoration
+		}
+		
+		// KILLCARD THEME HEADER
+		itemDef 
+		{
+			style			WINDOW_STYLE_SHADER
+			rect 19 236 357 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"menu_button_backg"
+			forecolor		1 1 1 0.4
+			visible			1
+			decoration
+		}
+		itemDef 
+		{
+			rect			28 235 280 0 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		1 1 1 0.95
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			exp text		("KILLCARD BACKGROUND DESIGN")
+			textfont		UI_FONT_OBJECTIVE
+			textscale		0.26
+			textalign		ITEM_ALIGN_LEFT
+			textaligny		14
+ 			visible			1	
+			decoration
+		}
+		// Class.Menu Style Back Button (Left Side)
+		itemDef
+		{
+			rect			70 440 220 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+			style			WINDOW_STYLE_SHADER
+			borderSize		1
+			foreColor		0.445 0.457 0.527 0.4
+			backColor		0 0 0 0
+			borderColor		0 0 0 0
+			outlineColor	0 0 0 0
+			background		"menu_button_backg"
+			textScale		0.55
+			visible			1
+			decoration		
+		}
+		itemDef
+		{
+			name			"back_btn_glow"
+			rect			70 440 220 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+			style			WINDOW_STYLE_SHADER
+			borderSize		1
+			foreColor		0 0 0 0
+			backColor		0 0 0 0
+			borderColor		0 0 0 0
+			outlineColor	0 0 0 0
+			background		"menu_button_backg"
+			textScale		0.55
+			visible			1
+			decoration		
+		}
+		itemDef
+		{
+			name			"back_btn"
+			rect			70 440 220 20 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+			type			ITEM_TYPE_BUTTON
+			borderSize		1
+			foreColor		1 1 1 1
+			backColor		0 0 0 0
+			borderColor		0 0 0 0
+			outlineColor	0 0 0 0
+			textFont		UI_FONT_OBJECTIVE
+			textAlign		ITEM_ALIGN_MIDDLE_RIGHT
+			textAlignX		-25
+			textScale		0.45
+			textStyle		ITEM_TEXTSTYLE_SHADOWED
+			text			"BACK"
+			visible			1
+			action			{ play "mouse_click"; close self; open player_menu; }
+			mouseEnter		{ play "mouse_over"; setitemcolor "back_btn_glow" foreColor 1 1 1 1; }
+			mouseExit		{ setitemcolor "back_btn_glow" foreColor 0 0 0 0; }
+		}
+		
+
+		// --- Interactive Selections (EXPLICIT CONDITIONS - NO NEGATION) ---
+		// 1. HIT ICONS (4 image buttons, Y = 76, Size = 50x50)
+						HIT_IMAGE_VIS( 1, 28, 80, "material0", "hit_default", "Standard white cross hit marker.", (dvarInt("ui_hit_icon") != 0), (dvarInt("ui_hit_icon") == 0) )
+		HIT_IMAGE_VIS( 2, 88, 80, "hit_icon_1", "hit_1", "Red crosshair overlay hit feedback.", (dvarInt("ui_hit_icon") != 1), (dvarInt("ui_hit_icon") == 1) )
+		HIT_IMAGE_VIS( 3, 148, 80, "hit_icon_2", "hit_2", "Tactical diamond overlay hit feedback.", (dvarInt("ui_hit_icon") != 2), (dvarInt("ui_hit_icon") == 2) )
+		HIT_IMAGE_VIS( 4, 208, 80, "hit_icon_3", "hit_3", "Heavy target box hit feedback.", (dvarInt("ui_hit_icon") != 3), (dvarInt("ui_hit_icon") == 3) )
+		HIT_IMAGE_VIS( 5, 268, 80, "hit_icon_4", "hit_4", "Custom hit marker 4.", (dvarInt("ui_hit_icon") != 4), (dvarInt("ui_hit_icon") == 4) )
+		HIT_IMAGE_VIS( 6, 328, 80, "hit_icon_5", "hit_5", "Custom hit marker 5.", (dvarInt("ui_hit_icon") != 5), (dvarInt("ui_hit_icon") == 5) )
+
+		// 2. KILLCAM HUDS (5 image buttons, Y = 148, Size = 48x32)
+		HUD_IMAGE_VIS( 1, 12, 180, "material0", 0.3 0.3 0.3, "kc_hud_default", "Standard clean cinematic killcam.", (dvarString("ui_killcam_hud") != "default"), (dvarString("ui_killcam_hud") == "default") )
+		HUD_IMAGE_VIS( 2, 93, 180, "killcam1", 1 1 1, "kc_hud_1", "Cyber punk neon killcam borders.", (dvarString("ui_killcam_hud") != "killcam1"), (dvarString("ui_killcam_hud") == "killcam1") )
+		HUD_IMAGE_VIS( 3, 174, 180, "killcam2", 1 1 1, "kc_hud_2", "Retro scanline computer screen overlay.", (dvarString("ui_killcam_hud") != "killcam2"), (dvarString("ui_killcam_hud") == "killcam2") )
+		HUD_IMAGE_VIS( 4, 255, 180, "killcam3", 1 1 1, "kc_hud_3", "Heavy military vignette vignette killcam.", (dvarString("ui_killcam_hud") != "killcam3"), (dvarString("ui_killcam_hud") == "killcam3") )
+		HUD_IMAGE_VIS( 5, 336, 180, "killcam4", 1 1 1, "kc_hud_4", "E-sports HUD style active overlay.", (dvarString("ui_killcam_hud") != "killcam4"), (dvarString("ui_killcam_hud") == "killcam4") )
+
+		// 3. KILLCARDS (16 image buttons in 4x4 Grid, Y = 208, 232, 256, 280, Size = 62x20)
+		// Row 1
+
+		// Row 1
+		KCARD_IMAGE_VIS( 1, 38, 250, "material0", 0.3 0.3 0.3, "Killcard 1", "kcard_default", "Select default grey killcard background.", (dvarString("ui_killcard") != "Default"), (dvarString("ui_killcard") == "Default") )
+		KCARD_IMAGE_VIS( 6, 165, 250, "playercard_emblem_4", 1 1 1, "Killcard 6", "kcard_member", "Select exclusive Member card.", (dvarString("ui_killcard") != "Member"), (dvarString("ui_killcard") == "Member") )
+		KCARD_IMAGE_VIS( 7, 293, 250, "killcard", 1 1 1, "Killcard 7", "kcard_card", "Select custom classic texture card.", (dvarString("ui_killcard") != "killcard"), (dvarString("ui_killcard") == "killcard") )
+
+		// Row 2
+		KCARD_IMAGE_VIS( 8, 38, 290, "killcard_ct", 1 1 1, "Killcard 8", "kcard_ct", "Select custom CT tactical card.", (dvarString("ui_killcard") != "killcard_ct"), (dvarString("ui_killcard") == "killcard_ct") )
+		KCARD_IMAGE_VIS( 9, 165, 290, "killcard_gl", 1 1 1, "Killcard 9", "kcard_gl", "Select custom golden leopard card.", (dvarString("ui_killcard") != "killcard_gl"), (dvarString("ui_killcard") == "killcard_gl") )
+		KCARD_IMAGE_VIS( 10, 293, 290, "killcard_in", 1 1 1, "Killcard 10", "kcard_in", "Select custom indigo card.", (dvarString("ui_killcard") != "killcard_in"), (dvarString("ui_killcard") == "killcard_in") )
+
+		// Row 3
+		KCARD_IMAGE_VIS( 11, 38, 330, "killcard_jk", 1 1 1, "Killcard 11", "kcard_jk", "Select custom joker style card.", (dvarString("ui_killcard") != "killcard_jk"), (dvarString("ui_killcard") == "killcard_jk") )
+		KCARD_IMAGE_VIS( 12, 165, 330, "killcard_mw", 1 1 1, "Killcard 12", "kcard_mw", "Select custom modern warfare card.", (dvarString("ui_killcard") != "killcard_mw"), (dvarString("ui_killcard") == "killcard_mw") )
+		KCARD_IMAGE_VIS( 13, 293, 330, "killcard_ns", 1 1 1, "Killcard 13", "kcard_ns", "Select custom neon space card.", (dvarString("ui_killcard") != "killcard_ns"), (dvarString("ui_killcard") == "killcard_ns") )
+
+		// Row 4
+		KCARD_IMAGE_VIS( 14, 38, 370, "killcard_pg", 1 1 1, "Killcard 14", "kcard_pg", "Select custom platinum green card.", (dvarString("ui_killcard") != "killcard_pg"), (dvarString("ui_killcard") == "killcard_pg") )
+		KCARD_IMAGE_VIS( 15, 165, 370, "killcard_sl", 1 1 1, "Killcard 15", "kcard_sl", "Select custom silver line card.", (dvarString("ui_killcard") != "killcard_sl"), (dvarString("ui_killcard") == "killcard_sl") )
+		KCARD_IMAGE_VIS( 16, 293, 370, "killcard_yk", 1 1 1, "Killcard 16", "kcard_yk", "Select custom yellow kick card.", (dvarString("ui_killcard") != "killcard_yk"), (dvarString("ui_killcard") == "killcard_yk") )
+
+
+		
+		// --- RIGHT PANEL: LIVE VISUAL PREVIEW ---
+		
+		// 1. HIT FEEDBACK PREVIEW
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			425 52 200 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"menu_button_backg"
+			forecolor		1 1 1 0.4
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			rect			430 52 200 0 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		0.93 0.93 0.93 0.7
+			text			"SELECTED HIT FEEDBACK:"
+			textfont		UI_FONT_NORMAL
+			textscale		0.18
+			textalign		ITEM_ALIGN_LEFT
+			textaligny		12
+			visible			1
+			decoration
+		}
+
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			508 75 40 40 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"material0"
+			forecolor		1 1 1 0.8
+			visible			when( dvarInt("ui_hit_icon")==0 )
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			508 75 40 40 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"hit_icon_1"
+			forecolor		0.95 0.95 0.95 1
+			visible			when( dvarInt("ui_hit_icon")==1 )
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			508 75 40 40 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"hit_icon_2"
+			forecolor		0.95 0.95 0.95 1
+			visible			when( dvarInt("ui_hit_icon")==2 )
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			508 75 40 40 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"hit_icon_3"
+			forecolor		0.95 0.95 0.95 1
+			visible			when( dvarInt("ui_hit_icon")==3 )
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			508 75 40 40 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"hit_icon_4"
+			forecolor		0.95 0.95 0.95 1
+			visible			when( dvarInt("ui_hit_icon")==4 )
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			508 75 40 40 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"hit_icon_5"
+			forecolor		0.95 0.95 0.95 1
+			visible			when( dvarInt("ui_hit_icon")==5 )
+			decoration
+		}
+
+		// 2. KILLCAM HUD PREVIEW
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			425 142 200 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"menu_button_backg"
+			forecolor		1 1 1 0.4
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			rect			430 142 200 0 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		0.93 0.93 0.93 0.7
+			text			"SELECTED KILLCAM HUD:"
+			textfont		UI_FONT_NORMAL
+			textscale		0.18
+			textalign		ITEM_ALIGN_LEFT
+			textaligny		12
+			visible			1
+			decoration
+		}
+
+		itemDef
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			425 162 200 120 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			backcolor		0.1 0.1 0.12 0.9 
+			border			1
+			bordercolor		0.15 0.15 0.18 1
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			rect			505 212 40 40 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		1 1 1 0.15
+			text			"KILLCAM"
+			textfont		UI_FONT_NORMAL
+			textscale		0.2
+			textalign		ITEM_ALIGN_CENTER
+			textaligny		20
+			visible			1
+			decoration
+		}
+
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			425 162 200 120 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"killcam1"
+			forecolor		0.95 0.95 0.95 1
+			visible			when( dvarString("ui_killcam_hud")=="killcam1" )
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			425 162 200 120 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"killcam2"
+			forecolor		0.95 0.95 0.95 1
+			visible			when( dvarString("ui_killcam_hud")=="killcam2" )
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			425 162 200 120 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"killcam3"
+			forecolor		0.95 0.95 0.95 1
+			visible			when( dvarString("ui_killcam_hud")=="killcam3" )
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			425 162 200 120 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"killcam4"
+			forecolor		0.95 0.95 0.95 1
+			visible			when( dvarString("ui_killcam_hud")=="killcam4" )
+			decoration
+		}
+
+		// 3. KILLCARD PREVIEW
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			425 302 200 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"menu_button_backg"
+			forecolor		1 1 1 0.4
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			rect			430 302 200 0 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		0.93 0.93 0.93 0.7
+			text			"SELECTED KILLCARD:"
+			textfont		UI_FONT_NORMAL
+			textscale		0.18
+			textalign		ITEM_ALIGN_LEFT
+			textaligny		12
+			visible			1
+			decoration
+		}
+
+		// Killcard Base
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			425 322 200 50 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"material0"
+			forecolor		1 1 1 1
+			border			1
+			bordercolor		0.15 0.15 0.15 0.9
+			visible			when( dvarString("ui_killcard")=="Default" )
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			425 322 200 50 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"playercard_emblem_4"
+			forecolor		0.95 0.95 0.95 1
+			border			1
+			bordercolor		0.8 0.8 0.8 0.9
+			visible			when( dvarString("ui_killcard")=="Member" )
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			425 322 200 50 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"killcard"
+			forecolor		0.95 0.95 0.95 1
+			border			1
+			bordercolor		0.5 0.5 0.5 0.5
+			visible			when( dvarString("ui_killcard")=="killcard" )
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			425 322 200 50 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"killcard_ct"
+			forecolor		0.95 0.95 0.95 1
+			border			1
+			bordercolor		0.5 0.5 0.5 0.5
+			visible			when( dvarString("ui_killcard")=="killcard_ct" )
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			425 322 200 50 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"killcard_gl"
+			forecolor		0.95 0.95 0.95 1
+			border			1
+			bordercolor		0.5 0.5 0.5 0.5
+			visible			when( dvarString("ui_killcard")=="killcard_gl" )
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			425 322 200 50 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"killcard_in"
+			forecolor		0.95 0.95 0.95 1
+			border			1
+			bordercolor		0.5 0.5 0.5 0.5
+			visible			when( dvarString("ui_killcard")=="killcard_in" )
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			425 322 200 50 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"killcard_jk"
+			forecolor		0.95 0.95 0.95 1
+			border			1
+			bordercolor		0.5 0.5 0.5 0.5
+			visible			when( dvarString("ui_killcard")=="killcard_jk" )
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			425 322 200 50 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"killcard_mw"
+			forecolor		0.95 0.95 0.95 1
+			border			1
+			bordercolor		0.5 0.5 0.5 0.5
+			visible			when( dvarString("ui_killcard")=="killcard_mw" )
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			425 322 200 50 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"killcard_ns"
+			forecolor		0.95 0.95 0.95 1
+			border			1
+			bordercolor		0.5 0.5 0.5 0.5
+			visible			when( dvarString("ui_killcard")=="killcard_ns" )
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			425 322 200 50 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"killcard_pg"
+			forecolor		0.95 0.95 0.95 1
+			border			1
+			bordercolor		0.5 0.5 0.5 0.5
+			visible			when( dvarString("ui_killcard")=="killcard_pg" )
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			425 322 200 50 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"killcard_sl"
+			forecolor		0.95 0.95 0.95 1
+			border			1
+			bordercolor		0.5 0.5 0.5 0.5
+			visible			when( dvarString("ui_killcard")=="killcard_sl" )
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			425 322 200 50 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			background		"killcard_yk"
+			forecolor		0.95 0.95 0.95 1
+			border			1
+			bordercolor		0.5 0.5 0.5 0.5
+			visible			when( dvarString("ui_killcard")=="killcard_yk" )
+			decoration
+		}
+
+		// Text shown on killcard when you kill someone
+		itemDef
+		{
+			rect			430 338 180 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		0.95 0.95 0.95 1
+			textfont		UI_FONT_NORMAL
+			textscale		0.25
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			text			"YOU KILLED"
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			rect			430 358 180 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		1 0.2 0.2 1
+			textfont		UI_FONT_OBJECTIVE
+			textscale		0.3
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			exp text		(dvarString("name")) // Just use their own name as a placeholder for the preview
+			visible			1
+			decoration
+		}
+	}
+}
+

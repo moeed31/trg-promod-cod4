@@ -1,0 +1,4 @@
+name,sequence,file,vol_min,vol_max,vol_mod,pitch_min,pitch_max,dist_min,dist_max,channel,type,probability,loop,masterslave,loadspec,subtitle,compression,secondaryaliasname,volumefalloffcurve,startdelay,speakermap,reverb,lfe percentage,center percentage,platform,envelop_min,envelop_max,envelop percentage,conversion
+
+weap_mwr_de50_slide_pull_plr,,/mwr/weapons/de50/mwr_de50_slide_pull_plr.wav,0.95,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+weap_mwr_de50_slide_release_plr,,/mwr/weapons/de50/mwr_de50_slide_release_plr.wav,0.95,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,

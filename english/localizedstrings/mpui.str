@@ -1,0 +1,20 @@
+VERSION             "1"
+CONFIG              "C:\trees\cod3\cod3\bin\StringEd.cfg"
+FILENOTES    
+
+REFERENCE           DESERT
+LANG_ENGLISH        "Cyber Pulse"
+
+REFERENCE           WOODLAND
+LANG_ENGLISH        "Liquid Flow"
+
+REFERENCE           DIGITAL
+LANG_ENGLISH        "Chroma Ripple"
+
+REFERENCE           RED_TIGER
+LANG_ENGLISH        "Neon Grid"
+
+REFERENCE           BLUE_TIGER
+LANG_ENGLISH        "Velocity"
+
+ENDMARKER
